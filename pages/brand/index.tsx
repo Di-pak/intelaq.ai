@@ -80,7 +80,7 @@ export default function BrandCreation({
         >
           <Grid item xs={12} md={6} lg={5} xl={4} style={{ order: 2 }}>
             <Box sx={style.rightSection} dir="rtl">
-              <IconButton sx={style.closeIcon}>
+              <IconButton sx={style.closeIcon} onClick={() => router.push("/")}>
                 <CloseIcon />
               </IconButton>
               <Typography variant="h5" sx={style.typography}>

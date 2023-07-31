@@ -132,7 +132,10 @@ export default function ProjectSubmission({
         <Grid container justifyContent="center" wrap="nowrap">
           <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 2 }}>
             <Box sx={style.rightSection} dir="rtl">
-              <IconButton sx={style.closeIcon}>
+              <IconButton
+                sx={style.closeIcon}
+                onClick={() => router.push("/project")}
+              >
                 <CloseIcon />
               </IconButton>
               <Typography variant="h4" sx={style.typography}>
