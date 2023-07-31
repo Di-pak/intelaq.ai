@@ -2,20 +2,13 @@
 
 import React, { useState } from "react";
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
-import {
-  Container,
-  Grid,
-  Typography,
-  Button,
-  Toolbar,
-} from "@mui/material";
+import { Container, Grid, Typography, Button, Toolbar } from "@mui/material";
 
 import Header from "../../components/header";
 import { useRouter } from "next/router";
 import ForwardIcon from "@/assets/forwardIcon";
 import DownloadAllIcon from "@/assets/downloadIcon";
 import ResultRadioBox from "@/components/resultRadioBox";
-
 
 const defaultTheme = createTheme();
 const resultBoxesData = [
@@ -51,7 +44,7 @@ const resultBoxesData = [
   },
 ];
 
-export default function CreateBrand() {
+export default function Results() {
   const [selectedOption, setSelectedOption] = useState("Option1");
   const router = useRouter();
 

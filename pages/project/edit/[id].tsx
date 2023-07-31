@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ProjectSubmission from "../add";
 
-function editProject() {
+function EditProject() {
   const [data, setData] = useState<any>(null);
   const [loading, setloading] = useState<boolean>(true);
   const router = useRouter();
@@ -24,4 +24,4 @@ function editProject() {
   return <ProjectSubmission data={data} isEdit />;
 }
 
-export default editProject;
+export default EditProject;
