@@ -20,7 +20,6 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "firebase": "^10.0.0",
-    "material-ui-color": "^1.2.0",
     "nanoid": "^4.0.2",
     "next": "13.4.10",
     "react": "18.2.0",
