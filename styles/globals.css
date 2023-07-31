@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "Bahij_TheSansArabic";
+  src: url("../fonts/Bahij_TheSansArabic-Bold.woff") format("woff"),
+    url("../fonts/Bahij_TheSansArabic-Bold.ttf") format("ttf"),
+    url("../fonts/Bahij_TheSansArabic-Bold.eot") format("eot");
+
+  /* Add additional formats if necessary (e.g., ttf, svg) */
+  /* src: url('./fonts/your-font-name.ttf') format('truetype'); */
+}
+
+/* Define any additional font styles you might need */
+body {
+  font-family: "Bahij_TheSansArabic", sans-serif;
+}

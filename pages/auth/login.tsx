@@ -289,6 +289,7 @@ const style = {
     color: "#24B1BE",
     fontWeight: 500,
     fontSize: "2rem",
+    fontFamily: fontFamily,
   },
   createAnAccountButton: {
     backgroundColor: "#fff",
@@ -305,6 +306,7 @@ const style = {
     whiteSpace: "nowrap",
     fontWeight: 500,
     color: "#979797",
+    fontFamily: fontFamily,
   },
   dividerBox: {
     width: "100%",

@@ -1,6 +1,6 @@
 export const authConfig = {
   welcomeTextArabic: "مرحباً بك!",
-  welcomeBackTextArabic:"مرحباً بعودتك!",
+  welcomeBackTextArabic: "مرحباً بعودتك!",
   enterData: "قم بإدخال بياناتك لتبدأ رحلتك مع انطلاق",
   createAnAccount: "انشاء حساب في انطلاق",
   createAnAccountButton: "انشاء حساب",
@@ -15,4 +15,4 @@ export const intialFormData = {
   password: "",
 };
 export const intialSignUpFormData = { ...intialFormData, name: "" };
-export const fontFamily = "'Noto','Sans','Arabic'";
+export const fontFamily = "'Bahij_TheSansArabic', sans-serif";
