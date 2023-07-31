@@ -50,7 +50,7 @@ function Login() {
 
   useEffect(() => {
     if (!userAfterSingIn && !signInError) return;
-    router.push("/brand");
+    router.push("/");
   }, [userAfterSingIn]);
 
   useEffect(() => {
@@ -97,7 +97,6 @@ function Login() {
                       <MailOutlineIcon style={{ color: "#979797" }} />
                     </InputAdornment>
                   ),
-                  
                 }}
               />
               <StyledTextField
@@ -275,7 +274,7 @@ const style = {
     fontFamily: fontFamily,
     fontWeight: 500,
     fontSize: "2.5rem",
-    paddingTop:"7rem",
+    paddingTop: "7rem",
     textAlign: "center",
   },
   enterData: {

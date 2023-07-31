@@ -20,7 +20,6 @@ export default function App({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
 
   async function checkUserLoggedIn() {
-    console.log("useEffect");
     if (!user && userIsLoading) {
       return;
     }
@@ -32,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
       (router.pathname === "/auth/login" ||
         router.pathname === "/auth/register")
     ) {
-      router.push("/brand");
+      router.push("/");
     }
   }
 }

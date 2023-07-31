@@ -59,7 +59,7 @@ function Register() {
       name,
       status: "active",
     }).then(() => {
-      router.push("/brand");
+      router.push("/");
     });
   }, [registeredUser]);
 
@@ -72,7 +72,7 @@ function Register() {
       name: displayName,
       status: "active",
     }).then(() => {
-      router.push("/brand");
+      router.push("/");
     });
   }, [gooleUserAfterSingIn]);
 
@@ -304,7 +304,7 @@ const style = {
     fontFamily: fontFamily,
     fontWeight: 500,
     fontSize: "2.5rem",
-    paddingTop:"7rem",
+    paddingTop: "7rem",
     textAlign: "center",
   },
   enterData: {
