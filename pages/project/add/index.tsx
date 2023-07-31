@@ -1,0 +1,622 @@
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
+import {
+  Container,
+  Grid,
+  Box,
+  IconButton,
+  Typography,
+  Button,
+  Stepper,
+  StepLabel,
+  Step,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
+import CloseIcon from "../../../assets/closeIcon";
+import InstagramIcon from "../../../assets/instagramIcon";
+import StepperIcon from "../../../assets/stepperIcon";
+import Header from "../../../components/header";
+import SocialRadioBox from "../../../components/socialradioBox";
+import StepperUncheckedIcon from "../../../assets/stepperuncheck";
+import TwitterIcon from "@/assets/twitterIcon";
+import FacebookIcon from "@/assets/facebookIcon";
+import LinkedInIcon from "@/assets/linkedinIcon";
+import TiktokIcon from "@/assets/tiktokIcon";
+import SnapchatIcon from "@/assets/snapchatIcon";
+import RightarrowIcon from "@/assets/rightarrowIcon";
+import YellowBarVerticalIcon from "@/assets/yellowBar";
+import LeftarrowIcon from "@/assets/leftarrowIcon";
+import CloudIcon from "@/assets/cloudIcon";
+import CheckmarkIcon from "@/assets/checkmarkIcon";
+import {
+  addProject,
+  updateProject,
+  uploadProjectImage,
+} from "@/services/project-service";
+import { nanoid } from "nanoid";
+import { useRouter } from "next/router";
+
+const defaultTheme = createTheme();
+
+const steps = ["Step 1", "Step 2", "Step 3"];
+const MaxWordLimit = 3000;
+
+const stepIcons = [
+  [StepperUncheckedIcon, StepperUncheckedIcon, StepperIcon],
+  [StepperUncheckedIcon, StepperIcon, StepperUncheckedIcon],
+  [StepperIcon, StepperUncheckedIcon, StepperUncheckedIcon],
+];
+const radioBoxesData = [
+  {
+    label: "انستجرام",
+    value: "انستجرام",
+    buttonText: "بارسال",
+    icon: <InstagramIcon />,
+  },
+  {
+    label: "تويتر",
+    value: "تويتر",
+    buttonText: "صورة غلاف",
+    icon: <TwitterIcon />,
+  },
+  {
+    label: "فيسبوك",
+    value: "فيسبوك",
+    buttonText: "بوست",
+    icon: <FacebookIcon />,
+  },
+  {
+    value: "linkedin",
+    label: "لينكد ان",
+    buttonText: "بوست",
+    icon: <LinkedInIcon />,
+  },
+  {
+    label: "تيك توك",
+    value: "تيك توك",
+    buttonText: "بوست",
+    icon: <TiktokIcon />,
+  },
+  {
+    label: "سناب شات",
+    value: "سناب شات",
+    buttonText: "ستوري",
+    icon: <SnapchatIcon />,
+  },
+];
+
+interface ProjecctCreationProps {
+  data: FormDataState | null;
+  isEdit: boolean;
+}
+
+interface FormDataState {
+  id?: string;
+  title: string;
+  image: any;
+  details: string;
+  demographic: string;
+  platform: string;
+}
+
+const intialFormData = {
+  title: "",
+  image: null,
+  details: "",
+  demographic: "",
+  platform: "انستجرام",
+};
+
+export default function ProjectSubmission({
+  data,
+  isEdit,
+}: ProjecctCreationProps) {
+  const [formData, setFormData] = useState<FormDataState>(intialFormData);
+  const [formDataError, setFormDataError] = useState<any>(intialFormData);
+  const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [step, setStep] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (data && isEdit) {
+      setFormData({ ...data });
+    }
+  }, [data]);
+
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Header username="اسم المستخدم" avatarSrc="/broken-image.jpg" />
+      <Container>
+        <Grid container justifyContent="center" wrap="nowrap">
+          <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 2 }}>
+            <Box sx={style.rightSection} dir="rtl">
+              <IconButton sx={style.closeIcon}>
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h4" sx={style.typography}>
+                انشاء مشروع
+                <Box sx={style.yellowBarIcon}>
+                  <YellowBarVerticalIcon />
+                </Box>
+              </Typography>
+              <Typography variant="subtitle2" sx={style.typography4} dir="rtl">
+                كل ما تحتاجه هو 10 دقائق لتحصل على إعلانات <br />
+                مبتكرة لعلامتك التجارية
+              </Typography>
+              <Box sx={style.imageWrapper}>
+                <Box
+                  sx={{ ...style.image, top: step === 1 ? "17rem" : "10rem" }}
+                />
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6} xl={8} mr={8} style={{ order: 1 }}>
+            <Box sx={{ width: "100%", marginTop: "4rem" }}>
+              <Stepper activeStep={step} alternativeLabel>
+                {steps.map((label, index) => (
+                  <Step key={label}>
+                    <StepLabel StepIconComponent={stepIcons[step][index]} />
+                  </Step>
+                ))}
+              </Stepper>
+            </Box>
+            {step === 0 && renderFirstStep()}
+            {step === 1 && renderSecondStep()}
+            {step === 2 && renderThirdStep()}
+
+            <Box sx={{ display: "flex", gap: "1rem", marginTop: "40px" }}>
+              {step < 2 && (
+                <StyledButton
+                  variant="contained"
+                  startIcon={<RightarrowIcon />}
+                  onClick={handleNextClick}
+                >
+                  استمرار
+                </StyledButton>
+              )}
+              {step > 0 && (
+                <Button
+                  variant="text"
+                  style={{ color: "#24B1BE" }}
+                  endIcon={<LeftarrowIcon />}
+                  onClick={() => setStep(step - 1)}
+                >
+                  تراجع
+                </Button>
+              )}
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </ThemeProvider>
+  );
+  function renderFirstStep() {
+    return (
+      <Box
+        sx={{
+          ...style.leftSection,
+        }}
+      >
+        <Box dir="rtl" sx={{ marginBottom: "32px" }}>
+          <StyledTypography>قم باختيار حجم المشروع</StyledTypography>
+        </Box>
+        <Grid container spacing={2} dir="rtl">
+          {radioBoxesData.map((data, index) => (
+            <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={4}>
+              <SocialRadioBox
+                {...data}
+                checked={formData.platform == data.value}
+                onChange={() =>
+                  setFormData({ ...formData, platform: data.value })
+                }
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+  }
+  function renderSecondStep() {
+    return (
+      <Box
+        dir="rtl"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2rem",
+          marginTop: "4rem",
+        }}
+      >
+        <BoxHeader>
+          <StyledTypography>عبارة لافتة</StyledTypography>
+          <TextField
+            fullWidth
+            name="title"
+            value={formData?.title}
+            onChange={handleChangeField}
+            error={formDataError?.title}
+            placeholder=""
+            sx={style.customInput}
+            dir="rtl"
+          />
+        </BoxHeader>
+        <BoxHeader>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <StyledTypography>تحميل الصورة</StyledTypography>
+            <StyledTypography variant="subtitle2">(اختياري)</StyledTypography>
+          </Box>
+          <TextField
+            dir="rtl"
+            fullWidth
+            value={formData?.image?.name || formData.image}
+            sx={style.customInputFile}
+            placeholder="قم برفع الصورة"
+            onClick={() => fileInputRef.current?.click()}
+            InputProps={{
+              startAdornment: <CloudIcon />,
+              endAdornment: (
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+              ),
+            }}
+          />
+        </BoxHeader>
+        <BoxHeader>
+          <StyledTypography>وصف المشروع</StyledTypography>
+          <StyledTextarea
+            name="details"
+            value={formData?.details}
+            onChange={handleChangeField}
+            style={{
+              border: formDataError.details
+                ? "1px solid #D54930"
+                : "1px solid #F7F7F7",
+            }}
+            aria-label="styled textarea"
+            dir="rtl"
+          />
+          <StyledCharacterCount>
+            {MaxWordLimit - formData?.details?.length}
+          </StyledCharacterCount>
+        </BoxHeader>
+        <BoxHeader>
+          <StyledTypography>الجمهور المستهدف</StyledTypography>
+          <StyledTextarea
+            name="demographic"
+            value={formData?.demographic}
+            onChange={handleChangeField}
+            style={{
+              border: formDataError.demographic
+                ? "1px solid #D54930"
+                : "1px solid #F7F7F7",
+            }}
+            aria-label="styled textarea"
+            dir="rtl"
+          />
+          <StyledCharacterCount>
+            {MaxWordLimit - formData?.demographic?.length}
+          </StyledCharacterCount>
+        </BoxHeader>
+      </Box>
+    );
+  }
+  function renderThirdStep() {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "104px",
+          gap: "58px",
+          textAlignLast: "center",
+        }}
+      >
+        <CheckmarkIcon />
+        <Box>
+          <Typography variant="h5" sx={{ marginTop: "2rem", color: "#24B1BE" }}>
+            شكرا لك!
+          </Typography>
+          <StyledTypography>
+            سوف نقوم بارسال ملفات التصميم عبر البريد الالكتروني خلال 3 أيام
+          </StyledTypography>
+        </Box>
+        <Box>
+          <StyledButton variant="contained" onClick={handleSubmitProject}>
+            {isAdding ? (
+              <CircularProgress size={28} style={{ color: "#fff" }} />
+            ) : (
+              <Typography>بارسال</Typography>
+            )}
+            بارسال
+          </StyledButton>
+        </Box>
+      </Box>
+    );
+  }
+  function handleNextClick() {
+    if (step == 1 && !formDataValidation()) return;
+    if (step < steps.length - 1) {
+      setStep((prevStep) => prevStep + 1);
+    }
+  }
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
+    }
+  }
+
+  function handleChangeField(e: any) {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormDataError({ ...formDataError, [e.target.name]: "" });
+  }
+
+  async function handleAddBrand() {
+    let id = nanoid();
+    setIsAdding(true);
+    let logoUrl = "";
+    if (formData.image) {
+      let fileData = await uploadProjectImage(formData.image, id);
+      logoUrl = fileData.src;
+    }
+    addProject(id, {
+      ...formData,
+      id,
+      image: logoUrl,
+    })
+      .then(() => {
+        router.push("/project");
+        setIsAdding(false);
+      })
+      .catch(() => {
+        console.log("catch");
+        setIsAdding(false);
+      });
+  }
+
+  async function handleEditBrand() {
+    setIsAdding(true);
+    if (!formData.id) return;
+    let logoUrl = "";
+    if (formData?.image?.name) {
+      let fileData = await uploadProjectImage(formData.image, formData.id);
+      logoUrl = fileData.src;
+    }
+    updateProject(formData.id, {
+      ...formData,
+      image: logoUrl || formData.image,
+    })
+      .then(() => {
+        router.push("/");
+        setIsAdding(false);
+      })
+      .catch(() => {
+        console.log("catch");
+        setIsAdding(false);
+      });
+  }
+
+  async function handleSubmitProject() {
+    if (!isEdit) {
+      handleAddBrand();
+    } else {
+      handleEditBrand();
+    }
+  }
+
+  // async function handleSubmitProject() {
+  //   let id = nanoid();
+  //   setIsAdding(true);
+  //   let logoUrl = "";
+  //   if (formData.image) {
+  //     let fileData = await uploadProjectImage(formData.image, id);
+  //     logoUrl = fileData.src;
+  //   }
+  //   addProject(id, {
+  //     ...formData,
+  //     id,
+  //     image: logoUrl,
+  //   })
+  //     .then(() => {
+  //       router.push("/project");
+  //       setIsAdding(false);
+  //     })
+  //     .catch(() => {
+  //       console.log("catch");
+  //       setIsAdding(false);
+  //     });
+  // }
+
+  function formDataValidation() {
+    let isValid = true;
+    if (!formData.title.trim()) {
+      setFormDataError((prevState: any) => ({
+        ...prevState,
+        title: "Please enter title",
+      }));
+      isValid = false;
+    }
+    if (!formData.image) {
+      setFormDataError((prevState: any) => ({
+        ...prevState,
+        image: "Please enter image",
+      }));
+      isValid = false;
+    }
+    if (!formData.details.trim()) {
+      setFormDataError((prevState: any) => ({
+        ...prevState,
+        details: "Please enter detail",
+      }));
+      isValid = false;
+    }
+    if (!formData.demographic.trim()) {
+      setFormDataError((prevState: any) => ({
+        ...prevState,
+        demographic: "Please enter demographic",
+      }));
+      isValid = false;
+    }
+    return isValid;
+  }
+}
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#24B1BE",
+  padding: "8px 6px",
+  "&:hover": {
+    backgroundColor: "#24B1BE",
+  },
+}));
+const BoxHeader = styled(Box)(({}) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "1.5rem",
+  position: "relative",
+}));
+const StyledCharacterCount = styled("div")({
+  position: "absolute",
+  bottom: "1.5rem",
+  left: "1.5rem",
+  color: "#BFBFBF",
+  fontSize: "16px",
+});
+
+const StyledTextarea = styled("textarea")(({ theme }) => ({
+  backgroundColor: "#F7F7F7",
+  borderRadius: "10px",
+  lineHeight: "1.5",
+  padding: "1rem",
+  height: "208PX",
+  resize: "none",
+  "&:focus": {
+    outline: "none",
+  },
+  "&:hover": {
+    outline: "none",
+  },
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  color: "#949494",
+  whiteSpace: "nowrap",
+  marginTop: "16px",
+}));
+
+const style = {
+  rightSection: {
+    position: "relative",
+    backgroundColor: "#F7F7F7",
+    maxHeight: "54rem",
+    height: "100%",
+    width: "100%",
+    marginTop: "3vh",
+    marginBottom: "2vh",
+    borderRadius: "22px",
+    marginLeft: "auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  leftSection: {
+    width: "100%",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    left: "0",
+    [defaultTheme.breakpoints.down("sm")]: {
+      alignItems: "center",
+    },
+  },
+  closeIcon: {
+    position: "absolute",
+    top: "3vh",
+    left: "3vh",
+  },
+  typography: {
+    position: "absolute",
+    top: "10vh",
+    right: "3vh",
+    color: "#24B1BE",
+  },
+  yellowBarIcon: {
+    marginRight: "-1.5rem",
+    marginTop: "-3.5rem",
+  },
+
+  typography4: {
+    position: "absolute",
+    top: "18vh",
+    right: "3vh",
+    color: "#979797",
+  },
+  imageWrapper: {
+    position: "relative",
+    width: "100%",
+    paddingTop: "100%",
+  },
+  image: {
+    position: "absolute",
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundImage: 'url("/intelaqfill_3.png")',
+    backgroundSize: "cover",
+  },
+  customInput: {
+    backgroundColor: "#F7F7F7",
+    borderRadius: "10px",
+    height: "56px",
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .Mui-error .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#d32f2f",
+    },
+  },
+  customInputFile: {
+    backgroundColor: "#F7F7F7",
+    borderRadius: "10px",
+    padding: "5.5rem 0",
+    border: "1px  dashed #DADADA",
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent",
+    },
+    "& .Mui-error .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#d32f2f",
+    },
+  },
+};
