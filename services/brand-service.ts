@@ -4,8 +4,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { auth, firestore, storage } from "../firebase";
 import {
@@ -13,6 +15,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export const BRAND_KEY = "brands";
 const brandCollection = collection(firestore, BRAND_KEY);
@@ -54,4 +57,21 @@ export async function updateBrand(id: string, brand: any) {
   const ref = doc(brandCollection, id);
   const res = await updateDoc(ref, brand);
   return res;
+}
+
+export const useUserGetBrands = (userId: any) => {
+  return useCollectionData(
+    userId
+      ? query(
+          brandCollection,
+          where("userId", "==", userId),
+          where("status", "in", ["active"])
+        )
+      : null
+  );
+};
+
+export async function deleteBrand(brandId: string) {
+  const _doc = doc(firestore, BRAND_KEY, brandId);
+  return await updateDoc(_doc, { status: "deleted" });
 }

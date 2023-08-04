@@ -1,11 +1,12 @@
 import {
-  addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { auth, firestore, storage } from "../firebase";
 import {
@@ -13,6 +14,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export const PROJECT_KEY = "projects";
 const projectCollection = collection(firestore, PROJECT_KEY);
@@ -54,3 +56,20 @@ export async function updateProject(id: string, brand: any) {
   const res = await updateDoc(ref, brand);
   return res;
 }
+
+export async function deleteProject(projectId: string) {
+  const _doc = doc(firestore, PROJECT_KEY, projectId);
+  return await updateDoc(_doc, { status: "deleted" });
+}
+
+export const useUserGetProject = (userId: any) => {
+  return useCollectionData(
+    userId
+      ? query(
+          projectCollection,
+          where("userId", "==", userId),
+          where("status", "in", ["active"])
+        )
+      : null
+  );
+};

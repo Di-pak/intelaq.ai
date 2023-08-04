@@ -8,6 +8,7 @@ import CardMedia from "@mui/material/CardMedia";
 import { Box, Button, Menu, MenuItem, styled } from "@mui/material";
 import FunctionIcon from "../assets/functionIcon";
 import { useRouter } from "next/router";
+import { deleteBrand } from "@/services/brand-service";
 
 interface BrandBookmarkCardProps {
   brand: {
@@ -61,6 +62,7 @@ export default function BrandBookmarkCard(props: BrandBookmarkCardProps) {
               >
                 Edit
               </MenuItem>
+              <MenuItem onClick={handleDeleteBrand}>Delete</MenuItem>
             </Menu>
           </div>
 
@@ -86,7 +88,12 @@ export default function BrandBookmarkCard(props: BrandBookmarkCardProps) {
       </Box>
     </Grid>
   );
-  function handleDeleteBrand() {}
+
+  function handleDeleteBrand() {
+    deleteBrand(brand.id).then(() => {
+      router.push("/");
+    });
+  }
 }
 
 const StyledCard = styled(Card)({

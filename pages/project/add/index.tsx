@@ -36,6 +36,8 @@ import {
 } from "@/services/project-service";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
 
 const defaultTheme = createTheme();
 
@@ -118,6 +120,7 @@ export default function ProjectSubmission({
   const [step, setStep] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     if (data && isEdit) {
@@ -381,6 +384,8 @@ export default function ProjectSubmission({
       ...formData,
       id,
       image: logoUrl,
+      userId: user?.uid,
+      status: "active",
     })
       .then(() => {
         router.push("/project");

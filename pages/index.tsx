@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BrandBookmarkCard from "../components/brandbookmarkCard";
-import BrandPresentationCard from "../components/brandpresentationCard";
 import WhiteLogo from "../assets/whiteLogo";
 import GrayLogo from "../assets/grayLogo";
 import SearchIcon from "@mui/icons-material/Search";
@@ -12,32 +11,23 @@ import {
   Button,
   Toolbar,
   Typography,
-  useTheme,
   TextField,
   IconButton,
   InputAdornment,
-  Divider,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { getAllBrands } from "@/services/brand-service";
+import { useUserGetBrands } from "@/services/brand-service";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
 
 export default function Brand() {
+  const [user] = useAuthState(auth);
   const router = useRouter();
-  const [selectedIcon, setSelectedIcon] = useState("bookmark");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [brandData, setBrandData] = useState<any>([]);
-
-  useEffect(() => {
-    fetchAllBrand();
-  }, []);
-
-  if (loading) return null;
+  const [brandData, isLoading] = useUserGetBrands(user?.uid);
+  if (isLoading) return null;
   return (
     <Grid>
-      <SideDrawer
-        setSelectedIcon={setSelectedIcon}
-        selectedIcon={selectedIcon}
-      />
+      <SideDrawer />
       <Header username="اسم المستخدم" avatarSrc="/broken-image.jpg" />
       <Container>
         <Toolbar
@@ -80,13 +70,12 @@ export default function Brand() {
           </Typography>
           <WhiteLogo />
         </Toolbar>
-        {selectedIcon === "bookmark" && brandData.length > 0 ? (
-          <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
-            {brandData.map((brand: any) => (
-              <BrandBookmarkCard key={brand.id} brand={brand} />
-            ))}
-          </Grid>
-        ) : (
+        <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
+          {brandData?.map((brand: any) => (
+            <BrandBookmarkCard key={brand.id} brand={brand} />
+          ))}
+        </Grid>
+        {!brandData?.length && (
           <NoBrandContainer>
             <StyledGrayLogo />
             <Typography variant="h6" mt={1} color="#5C5C5C">
@@ -107,17 +96,6 @@ export default function Brand() {
       </Container>
     </Grid>
   );
-
-  async function fetchAllBrand() {
-    try {
-      let brandsData = await getAllBrands();
-      setBrandData(brandsData);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  }
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({

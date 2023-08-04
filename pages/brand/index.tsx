@@ -25,6 +25,8 @@ import {
 } from "@/services/brand-service";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
 
 const defaultTheme = createTheme();
 
@@ -61,6 +63,7 @@ export default function BrandCreation({
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const router = useRouter();
   const logoRef = useRef<any>();
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     if (data && isEdit) {
@@ -285,8 +288,13 @@ export default function BrandCreation({
       let fileData = await uploadBrandLogo(formData.logo, id);
       logoUrl = fileData.src;
     }
-
-    addBrand(id, { ...formData, id, logo: logoUrl })
+    addBrand(id, {
+      ...formData,
+      id,
+      logo: logoUrl,
+      userId: user?.uid,
+      status: "active",
+    })
       .then(() => {
         router.push("/");
         setIsAdding(false);

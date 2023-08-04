@@ -4,6 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import BrandIcon from "../assets/brand-icon";
+import { useRouter } from "next/router";
 
 // Define the props interface
 interface HeaderProps {
@@ -12,6 +13,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ username, avatarSrc }) => {
+  let router = useRouter();
   const style = {
     upperToolbar: {
       borderBottom: 1,
@@ -32,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ username, avatarSrc }) => {
     <Toolbar sx={style.upperToolbar}>
       <Avatar sx={style.avatarStyle} src={avatarSrc} />
       <Button size="small">{username}</Button>
-      <IconButton sx={style.iconButton}>
+      <IconButton sx={style.iconButton} onClick={() => router.push("/")}>
         <BrandIcon />
       </IconButton>
     </Toolbar>

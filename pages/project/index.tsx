@@ -19,25 +19,19 @@ import {
   Box,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { getAllProject } from "@/services/project-service";
+import { getAllProject, useUserGetProject } from "@/services/project-service";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
 
 export default function Brand() {
   const router = useRouter();
-  const [selectedIcon, setSelectedIcon] = useState("bookmark");
-  const [brandData, setBrandData] = useState<any>([]);
-  const [loading, setloading] = useState<boolean>(true);
+  const [user] = useAuthState(auth);
+  const [brandData = [], isLoading] = useUserGetProject(user?.uid);
 
-  useEffect(() => {
-    fetchAllProject();
-  }, []);
-
-  if (loading) return <p>...loading</p>;
+  if (isLoading) return <p>...loading</p>;
   return (
     <Grid>
-      <SideDrawer
-        setSelectedIcon={setSelectedIcon}
-        selectedIcon={selectedIcon}
-      />
+      <SideDrawer />
       <Header username="اسم المستخدم" avatarSrc="/broken-image.jpg" />
       <Container>
         <Toolbar
@@ -80,8 +74,7 @@ export default function Brand() {
           </Typography>
           <WhiteLogo />
         </Toolbar>
-
-        {selectedIcon === "bookmark" && brandData.length > 0 ? (
+        {brandData?.length > 0 && (
           <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
             <Box width="100%" mt={8}>
               <Typography
@@ -94,15 +87,17 @@ export default function Brand() {
               </Typography>
               <Divider variant="middle" sx={{ marginBottom: "20px" }} />
             </Box>
-            {brandData.map((brand: any) => (
+            {brandData?.map((brand: any) => (
               <BrandPresentationCard key={brand.id} presentation={brand} />
             ))}
           </Grid>
-        ) : (
+        )}
+
+        {!brandData?.length && (
           <NoBrandContainer>
             <StyledGrayLogo />
             <Typography variant="h6" mt={1} color="#5C5C5C">
-              لا يوجد اي علامة تجارية قمت بانشاءها
+              لا يوجد اي مشاريع قمت بانشاءها
             </Typography>
             <Grid mt={7}>
               <StyledButton
@@ -111,7 +106,7 @@ export default function Brand() {
                   router.push("/project/add");
                 }}
               >
-                + إنشاء علامة تجارية
+                + إنشاء مشروع
               </StyledButton>
             </Grid>
           </NoBrandContainer>
@@ -119,16 +114,6 @@ export default function Brand() {
       </Container>
     </Grid>
   );
-
-  async function fetchAllProject() {
-    try {
-      let brandsData = await getAllProject();
-      setBrandData(brandsData);
-      setloading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({

@@ -46,17 +46,8 @@ const StyledList = styled(List)({
   alignItems: "center",
 });
 
-interface SideDrawerProps {
-  setSelectedIcon: (icon: string) => void;
-  selectedIcon: string; // Add the selectedIcon prop here
-}
-
-const SideDrawer: React.FC<SideDrawerProps> = ({
-  setSelectedIcon,
-  selectedIcon,
-}) => {
+const SideDrawer = () => {
   const router = useRouter();
-
   return (
     <Drawer variant="permanent" anchor="right">
       <StyledComponent>

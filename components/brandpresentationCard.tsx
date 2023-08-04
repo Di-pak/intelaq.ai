@@ -7,6 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 import { Box, Button, Menu, MenuItem, styled } from "@mui/material";
 import FunctionIcon from "../assets/functionIcon";
 import { useRouter } from "next/router";
+import { deleteProject } from "@/services/project-service";
 
 interface BrandPresentationCardProps {
   presentation: {
@@ -63,6 +64,7 @@ export default function BrandPresentationCard(
               >
                 Edit
               </MenuItem>
+              <MenuItem onClick={handleDeleteProject}>Delete</MenuItem>
             </Menu>
           </div>
           <CardContent sx={{ flex: 1 }}>
@@ -89,6 +91,12 @@ export default function BrandPresentationCard(
       </Box>
     </Grid>
   );
+
+  function handleDeleteProject() {
+    deleteProject(presentation.id).then(() => {
+      router.push("/project");
+    });
+  }
 }
 
 const StyledSpan = styled("span")({
