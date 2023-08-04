@@ -28,7 +28,7 @@ export default function Brand() {
   return (
     <Grid>
       <SideDrawer />
-      <Header username="اسم المستخدم" avatarSrc="/broken-image.jpg" />
+      <Header />
       <Container>
         <Toolbar
           sx={{

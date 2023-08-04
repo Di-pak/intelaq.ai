@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import BrandIcon from "../assets/brand-icon";
 import { useRouter } from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
+import { getUser } from "@/services/users-service";
 
 // Define the props interface
-interface HeaderProps {
-  username: string;
-  avatarSrc?: string;
-}
 
-const Header: React.FC<HeaderProps> = ({ username, avatarSrc }) => {
+const Header = () => {
   let router = useRouter();
+  const [user] = useAuthState(auth);
+  const [userData, setUserData] = useState<any>(null);
   const style = {
     upperToolbar: {
       borderBottom: 1,
@@ -30,10 +31,17 @@ const Header: React.FC<HeaderProps> = ({ username, avatarSrc }) => {
     },
   };
 
+  useEffect(() => {
+    if (!user) return;
+    getUser(user.uid).then((res) => {
+      setUserData(res);
+    });
+  }, [user]);
+
   return (
     <Toolbar sx={style.upperToolbar}>
-      <Avatar sx={style.avatarStyle} src={avatarSrc} />
-      <Button size="small">{username}</Button>
+      <Avatar sx={style.avatarStyle} src="/broken-image.jpg" />
+      <Button size="small">{userData?.name}</Button>
       <IconButton sx={style.iconButton} onClick={() => router.push("/")}>
         <BrandIcon />
       </IconButton>

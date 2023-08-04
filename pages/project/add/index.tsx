@@ -130,7 +130,7 @@ export default function ProjectSubmission({
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Header username="اسم المستخدم" avatarSrc="/broken-image.jpg" />
+      <Header />
       <Container>
         <Grid container justifyContent="center" wrap="nowrap">
           <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 2 }}>

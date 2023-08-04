@@ -73,7 +73,7 @@ export default function BrandCreation({
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Header username="اسم المستخدم" avatarSrc="/broken-image.jpg" />
+      <Header />
       <Container>
         <Grid
           container

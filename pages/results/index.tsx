@@ -50,7 +50,7 @@ export default function Results() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Header username="اسم المستخدم" avatarSrc="/broken-image.jpg" />
+      <Header />
       <Grid container>
         <StyledToolbar>
           <StyledButton variant="contained">
