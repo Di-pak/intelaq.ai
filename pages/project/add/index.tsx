@@ -12,6 +12,9 @@ import {
   Step,
   TextField,
   CircularProgress,
+  Modal,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import CloseIcon from "../../../assets/closeIcon";
 import InstagramIcon from "../../../assets/instagramIcon";
@@ -38,6 +41,9 @@ import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import { fileToDataURL } from "@/utils";
+import { useUserGetBrands } from "@/services/brand-service";
 
 const defaultTheme = createTheme();
 
@@ -100,6 +106,7 @@ interface FormDataState {
   details: string;
   demographic: string;
   platform: string;
+  brandId: string;
 }
 
 const intialFormData = {
@@ -108,6 +115,7 @@ const intialFormData = {
   details: "",
   demographic: "",
   platform: "انستجرام",
+  brandId: "",
 };
 
 export default function ProjectSubmission({
@@ -115,18 +123,24 @@ export default function ProjectSubmission({
   isEdit,
 }: ProjecctCreationProps) {
   const [formData, setFormData] = useState<FormDataState>(intialFormData);
-  const [formDataError, setFormDataError] = useState<any>(intialFormData);
+  const [formDataError, setFormDataError] = useState<any>(null);
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [step, setStep] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [user] = useAuthState(auth);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [brandData, isLoading] = useUserGetBrands(user?.uid);
 
   useEffect(() => {
     if (data && isEdit) {
       setFormData({ ...data });
     }
   }, [data]);
+
+  console.log("brandData", brandData);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -195,6 +209,20 @@ export default function ProjectSubmission({
             </Box>
           </Grid>
         </Grid>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style.modalStyle}>
+            <img
+              src={formData.image?.src || formData.image}
+              width="auto"
+              height={400}
+            />
+          </Box>
+        </Modal>
       </Container>
     </ThemeProvider>
   );
@@ -236,6 +264,24 @@ export default function ProjectSubmission({
         }}
       >
         <BoxHeader>
+          <StyledTypography>العلامات التجارية</StyledTypography>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={formData.brandId}
+            label="Age"
+            disabled={isLoading}
+            sx={style.customInput}
+            onChange={(e: any) => {
+              setFormData({ ...formData, brandId: e.target.value });
+            }}
+          >
+            {brandData?.map((item) => {
+              return <MenuItem value={item.id}>{item.name}</MenuItem>;
+            })}
+          </Select>
+        </BoxHeader>
+        <BoxHeader>
           <StyledTypography>عبارة لافتة</StyledTypography>
           <TextField
             fullWidth
@@ -257,12 +303,20 @@ export default function ProjectSubmission({
             }}
           >
             <StyledTypography>تحميل الصورة</StyledTypography>
-            <StyledTypography variant="subtitle2">(اختياري)</StyledTypography>
+            {(formData?.image?.name || formData.image) && (
+              <Box display="flex" alignItems="center" gap={0.5}>
+                <Button onClick={handleOpen} sx={{ padding: 0 }}>
+                  {" "}
+                  تظهر الصورة
+                </Button>
+                <TaskAltIcon sx={{ color: "#4fe38f" }} />
+              </Box>
+            )}
           </Box>
           <TextField
             dir="rtl"
             fullWidth
-            value={formData?.image?.name || formData.image}
+            // value={formData?.image?.name || formData.image}
             sx={style.customInputFile}
             placeholder="قم برفع الصورة"
             onClick={() => fileInputRef.current?.click()}
@@ -287,7 +341,7 @@ export default function ProjectSubmission({
             value={formData?.details}
             onChange={handleChangeField}
             style={{
-              border: formDataError.details
+              border: formDataError?.details
                 ? "1px solid #D54930"
                 : "1px solid #F7F7F7",
             }}
@@ -305,7 +359,7 @@ export default function ProjectSubmission({
             value={formData?.demographic}
             onChange={handleChangeField}
             style={{
-              border: formDataError.demographic
+              border: formDataError?.demographic
                 ? "1px solid #D54930"
                 : "1px solid #F7F7F7",
             }}
@@ -363,7 +417,12 @@ export default function ProjectSubmission({
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      setFormData({ ...formData, image: file });
+      fileToDataURL(file, (result) => {
+        setFormData({
+          ...formData,
+          image: { src: result, file: file },
+        });
+      });
     }
   }
 
@@ -376,8 +435,8 @@ export default function ProjectSubmission({
     let id = nanoid();
     setIsAdding(true);
     let logoUrl = "";
-    if (formData.image) {
-      let fileData = await uploadProjectImage(formData.image, id);
+    if (formData?.image?.file) {
+      let fileData = await uploadProjectImage(formData.image.file, id);
       logoUrl = fileData.src;
     }
     addProject(id, {
@@ -401,8 +460,8 @@ export default function ProjectSubmission({
     setIsAdding(true);
     if (!formData.id) return;
     let logoUrl = "";
-    if (formData?.image?.name) {
-      let fileData = await uploadProjectImage(formData.image, formData.id);
+    if (formData?.image?.file) {
+      let fileData = await uploadProjectImage(formData.image.file, formData.id);
       logoUrl = fileData.src;
     }
     updateProject(formData.id, {
@@ -426,29 +485,6 @@ export default function ProjectSubmission({
       handleEditBrand();
     }
   }
-
-  // async function handleSubmitProject() {
-  //   let id = nanoid();
-  //   setIsAdding(true);
-  //   let logoUrl = "";
-  //   if (formData.image) {
-  //     let fileData = await uploadProjectImage(formData.image, id);
-  //     logoUrl = fileData.src;
-  //   }
-  //   addProject(id, {
-  //     ...formData,
-  //     id,
-  //     image: logoUrl,
-  //   })
-  //     .then(() => {
-  //       router.push("/project");
-  //       setIsAdding(false);
-  //     })
-  //     .catch(() => {
-  //       console.log("catch");
-  //       setIsAdding(false);
-  //     });
-  // }
 
   function formDataValidation() {
     let isValid = true;
@@ -494,7 +530,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 const BoxHeader = styled(Box)(({}) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "1.5rem",
+  gap: "1rem",
   position: "relative",
 }));
 const StyledCharacterCount = styled("div")({
@@ -562,6 +598,13 @@ const style = {
     right: "3vh",
     color: "#24B1BE",
   },
+  modalStyle: {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    p: 4,
+  },
   yellowBarIcon: {
     marginRight: "-1.5rem",
     marginTop: "-3.5rem",
@@ -600,7 +643,7 @@ const style = {
       borderColor: "transparent",
     },
     "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "transparent",
+      borderColor: "F7F7F7",
     },
     "& .Mui-error .MuiOutlinedInput-notchedOutline": {
       borderColor: "#d32f2f",
