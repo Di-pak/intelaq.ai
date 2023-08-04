@@ -10,6 +10,7 @@ import {
   FormControl,
   Button,
   CircularProgress,
+  Modal,
 } from "@mui/material";
 import CloseIcon from "../../assets/closeIcon";
 import BigwhiteIcon from "../../assets/BigwhiteIcon";
@@ -27,6 +28,8 @@ import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import { fileToDataURL } from "@/utils";
 
 const defaultTheme = createTheme();
 
@@ -64,6 +67,9 @@ export default function BrandCreation({
   const router = useRouter();
   const logoRef = useRef<any>();
   const [user] = useAuthState(auth);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (data && isEdit) {
@@ -128,15 +134,30 @@ export default function BrandCreation({
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl fullWidth>
-                    <Box display="flex" alignItems="center" gap={0.5}>
-                      <FolderIcon />
-                      <StyledTypography> العلامة التجارية</StyledTypography>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Box display="flex" alignItems="center" gap={0.5}>
+                        <FolderIcon />
+                        <StyledTypography> العلامة التجارية</StyledTypography>
+                      </Box>
+                      {(formData?.logo?.name || formData.logo) && (
+                        <Box display="flex" alignItems="center" gap={0.5}>
+                          <Button onClick={handleOpen} sx={{ padding: 0 }}>
+                            {" "}
+                            تظهر الصورة
+                          </Button>
+                          <TaskAltIcon sx={{ color: "#4fe38f" }} />
+                        </Box>
+                      )}
                     </Box>
 
                     <TextField
                       dir="rtl"
                       sx={style.customInput}
-                      value={formData?.logo?.name || formData.logo}
+                      // value={formData?.logo?.name || formData.logo}
                       placeholder="قم برفع الصورة"
                       onClick={handleBrandLogo}
                       InputProps={{
@@ -148,7 +169,12 @@ export default function BrandCreation({
                             style={{ display: "none" }}
                             onChange={(e: any) => {
                               let file = e.target.files[0];
-                              setFormData({ ...formData, logo: file });
+                              fileToDataURL(file, (result) => {
+                                setFormData({
+                                  ...formData,
+                                  logo: { src: result, file: file },
+                                });
+                              });
                             }}
                           />
                         ),
@@ -239,6 +265,20 @@ export default function BrandCreation({
             </Box>
           </Grid>
         </Grid>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style.modalStyle}>
+            <img
+              src={formData.logo?.src || formData.logo}
+              width="auto"
+              height={400}
+            />
+          </Box>
+        </Modal>
       </Container>
     </ThemeProvider>
   );
@@ -284,8 +324,8 @@ export default function BrandCreation({
     let id = nanoid();
     setIsAdding(true);
     let logoUrl = "";
-    if (formData.logo) {
-      let fileData = await uploadBrandLogo(formData.logo, id);
+    if (formData?.logo?.file) {
+      let fileData = await uploadBrandLogo(formData.logo.file, id);
       logoUrl = fileData.src;
     }
     addBrand(id, {
@@ -309,8 +349,8 @@ export default function BrandCreation({
     setIsAdding(true);
     if (!formData.id) return;
     let logoUrl = "";
-    if (formData?.logo?.name) {
-      let fileData = await uploadBrandLogo(formData.logo, formData.id);
+    if (formData?.logo?.file) {
+      let fileData = await uploadBrandLogo(formData.logo.file, formData.id);
       logoUrl = fileData.src;
     }
     updateBrand(formData.id, { ...formData, logo: logoUrl || formData.logo })
@@ -444,5 +484,12 @@ const style = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  modalStyle: {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    p: 4,
   },
 };
