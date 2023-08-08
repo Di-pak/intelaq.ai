@@ -282,7 +282,11 @@ export default function ProjectSubmission({
             }}
           >
             {brandData?.map((item) => {
-              return <MenuItem value={item.id}>{item.name}</MenuItem>;
+              return (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.name}
+                </MenuItem>
+              );
             })}
           </Select>
         </BoxHeader>
