@@ -19,7 +19,7 @@ import {
   Box,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { getAllProject, useUserGetProject } from "@/services/project-service";
+import { useUserGetProject } from "@/services/project-service";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 
@@ -29,6 +29,7 @@ export default function Brand() {
   const [brandData = [], isLoading] = useUserGetProject(user?.uid);
 
   if (isLoading) return <p>...loading</p>;
+
   return (
     <Grid>
       <SideDrawer />
@@ -74,25 +75,27 @@ export default function Brand() {
           </Typography>
           <WhiteLogo />
         </Toolbar>
-        {brandData?.length > 0 && (
-          <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
-            <Box width="100%" mt={8}>
-              <Typography
-                component="h1"
-                variant="h5"
-                dir="rtl"
-                sx={{ ...style.mainTitle }}
-              >
-                اسم البراند
-              </Typography>
-              <Divider variant="middle" sx={{ marginBottom: "20px" }} />
-            </Box>
-            {brandData?.map((brand: any) => (
-              <BrandPresentationCard key={brand.id} presentation={brand} />
-            ))}
-          </Grid>
-        )}
-
+        {getFilterData(brandData).length > 0 &&
+          getFilterData(brandData).map((item: any) => {
+            return (
+              <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
+                <Box width="100%" mt={8}>
+                  <Typography
+                    component="h1"
+                    variant="h5"
+                    dir="rtl"
+                    sx={{ ...style.mainTitle }}
+                  >
+                    {item[0].brandName}
+                  </Typography>
+                  <Divider variant="middle" sx={{ marginBottom: "20px" }} />
+                </Box>
+                {item?.map((brand: any) => (
+                  <BrandPresentationCard key={brand.id} presentation={brand} />
+                ))}
+              </Grid>
+            );
+          })}
         {!brandData?.length && (
           <NoBrandContainer>
             <StyledGrayLogo />
@@ -114,6 +117,19 @@ export default function Brand() {
       </Container>
     </Grid>
   );
+
+  function getFilterData(data: any) {
+    const groupedByBrandId = data.reduce((acc: any, item: any) => {
+      if (!acc[item.brandId]) {
+        acc[item.brandId] = [];
+      }
+      acc[item.brandId].push(item);
+      return acc;
+    }, {});
+
+    const arrayOfArrays = Object.values(groupedByBrandId);
+    return arrayOfArrays;
+  }
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({

@@ -107,6 +107,7 @@ interface FormDataState {
   demographic: string;
   platform: string;
   brandId: string;
+  brandName: string;
 }
 
 const intialFormData = {
@@ -116,6 +117,7 @@ const intialFormData = {
   demographic: "",
   platform: "انستجرام",
   brandId: "",
+  brandName: "",
 };
 
 export default function ProjectSubmission({
@@ -139,8 +141,6 @@ export default function ProjectSubmission({
       setFormData({ ...data });
     }
   }, [data]);
-
-  console.log("brandData", brandData);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -273,7 +273,12 @@ export default function ProjectSubmission({
             disabled={isLoading}
             sx={style.customInput}
             onChange={(e: any) => {
-              setFormData({ ...formData, brandId: e.target.value });
+              setFormData({
+                ...formData,
+                brandId: e.target.value,
+                brandName: brandData?.find((item) => item.id == e.target.value)
+                  ?.name,
+              });
             }}
           >
             {brandData?.map((item) => {

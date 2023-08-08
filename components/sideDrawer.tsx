@@ -31,11 +31,13 @@ const StyledComponent = styled(Box)({
 const StyledTypography = styled(Typography)({
   marginBottom: "1rem",
   color: "#979797",
+  width: "42px",
 });
 
 const StyledSelectedTypography = styled(Typography)({
   marginBottom: "1rem",
   color: "#24B1BE",
+  width: "42px",
 });
 
 const StyledList = styled(List)({
@@ -61,15 +63,11 @@ const SideDrawer = () => {
           {/* Use the StyledSelectedTypography conditionally */}
           {router.pathname === "/" ? (
             <StyledSelectedTypography variant="subtitle2">
-              التجاريةا
-              <br />
-              لعلامات
+              العلامات التجارية
             </StyledSelectedTypography>
           ) : (
             <StyledTypography variant="subtitle2">
-              التجاريةا
-              <br />
-              لعلامات
+              العلامات التجارية
             </StyledTypography>
           )}
 
