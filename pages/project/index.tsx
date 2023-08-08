@@ -76,9 +76,15 @@ export default function Brand() {
           <WhiteLogo />
         </Toolbar>
         {getFilterData(brandData).length > 0 &&
-          getFilterData(brandData).map((item: any) => {
+          getFilterData(brandData).map((item: any, i: number) => {
             return (
-              <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
+              <Grid
+                key={i}
+                container
+                spacing={1}
+                mt={4}
+                justifyContent={"flex-end"}
+              >
                 <Box width="100%" mt={8}>
                   <Typography
                     component="h1"
