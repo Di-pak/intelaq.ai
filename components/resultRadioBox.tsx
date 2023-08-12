@@ -95,7 +95,7 @@ const ResultRadioBox: React.FC<ResultRadioBoxProps> = ({
     <Container>
       <RadioBox>
         {src && <ContainedImage src={src} />}
-        <RadioGroupContainer>
+        {/* <RadioGroupContainer>
           <RadioGroup>
             <FormControlLabel
               value={value}
@@ -110,10 +110,12 @@ const ResultRadioBox: React.FC<ResultRadioBoxProps> = ({
               label=""
             />
           </RadioGroup>
-        </RadioGroupContainer>
+        </RadioGroupContainer> */}
       </RadioBox>
       <DownloadIconContainer>
-        <DownloadcolorIcon />
+        <a href={src} download="test_image" target="_blank">
+          <DownloadcolorIcon />
+        </a>
       </DownloadIconContainer>
       <EditIconContainer>
         <EditcolorIcon />
