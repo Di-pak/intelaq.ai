@@ -44,6 +44,7 @@ import { auth } from "../../../firebase";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { fileToDataURL } from "@/utils";
 import { useUserGetBrands } from "@/services/brand-service";
+import { getUser } from "@/services/users-service";
 
 const defaultTheme = createTheme();
 
@@ -135,12 +136,19 @@ export default function ProjectSubmission({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [brandData, isLoading] = useUserGetBrands(user?.uid);
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
     if (data && isEdit) {
       setFormData({ ...data });
     }
   }, [data]);
+
+  useEffect(() => {
+    getUser(user?.uid as string).then((res) => {
+      setUserData(res);
+    });
+  }, [user]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -423,14 +431,13 @@ export default function ProjectSubmission({
     }
   }
 
-  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      fileToDataURL(file, (result) => {
-        setFormData({
-          ...formData,
-          image: { src: result, file: file },
-        });
+      let url = await fileToDataURL(file);
+      setFormData({
+        ...formData,
+        image: { src: url, file: file },
       });
     }
   }
@@ -454,6 +461,9 @@ export default function ProjectSubmission({
       image: logoUrl,
       userId: user?.uid,
       status: "active",
+      userName: userData.name,
+      userEmail: userData.email,
+      step: "project_submit",
     })
       .then(() => {
         router.push("/project");

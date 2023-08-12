@@ -23,7 +23,7 @@ import { auth } from "../firebase";
 export default function Brand() {
   const [user] = useAuthState(auth);
   const router = useRouter();
-  const [brandData, isLoading] = useUserGetBrands(user?.uid);
+  const [brandData, isLoading, isError] = useUserGetBrands(user?.uid);
   if (isLoading) return null;
   return (
     <Grid>

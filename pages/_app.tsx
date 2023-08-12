@@ -23,6 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
     if (!user && userIsLoading) {
       return;
     }
+    if (router.pathname == "/admin") {
+      return;
+    }
     if (!user && router.pathname !== "/auth/login") {
       router.replace("/auth/login");
     }

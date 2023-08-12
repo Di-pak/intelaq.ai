@@ -47,7 +47,6 @@ export async function getAllBrands() {
 }
 
 export async function getBrand(id: string) {
-  console.log("getBrand id", id);
   const querySnapshot = await getDoc(doc(firestore, BRAND_KEY, id));
   const brand = querySnapshot.data();
   return { ...brand };

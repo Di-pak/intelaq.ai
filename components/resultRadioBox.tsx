@@ -19,12 +19,12 @@ interface ResultRadioBoxProps {
   value: string;
   checked: boolean;
   onChange: () => void;
-  image: string;
+  src: string;
 }
 
 const ResultRadioBox: React.FC<ResultRadioBoxProps> = ({
   value,
-  image,
+  src,
   checked,
   onChange,
 }) => {
@@ -94,40 +94,7 @@ const ResultRadioBox: React.FC<ResultRadioBoxProps> = ({
   return (
     <Container>
       <RadioBox>
-        {image && <ContainedImage src={image} />}
-        <RadioGroupContainer>
-          <RadioGroup>
-            <FormControlLabel
-              value={value}
-              control={
-                <Radio
-                  icon={<RadioUncheckedIcon />}
-                  checkedIcon={<RadioCheckedIcon />}
-                  checked={checked}
-                  onChange={onChange}
-                />
-              }
-              label=""
-            />
-          </RadioGroup>
-        </RadioGroupContainer>
-      </RadioBox>
-      <DownloadIconContainer>
-        <DownloadcolorIcon />
-      </DownloadIconContainer>
-      <EditIconContainer>
-        <EditcolorIcon />
-      </EditIconContainer>
-      <SaveIconContainer>
-        <SaveLogo />
-      </SaveIconContainer>
-    </Container>
-  );
-
-  return (
-    <Container>
-      <RadioBox>
-        {image && <ContainedImage src={image} />}
+        {src && <ContainedImage src={src} />}
         <RadioGroupContainer>
           <RadioGroup>
             <FormControlLabel

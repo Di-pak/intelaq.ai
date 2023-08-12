@@ -65,6 +65,13 @@ export default function BrandPresentationCard(
                 Edit
               </MenuItem>
               <MenuItem onClick={handleDeleteProject}>Delete</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  router.push(`/project/results/${presentation.id}`);
+                }}
+              >
+                Show results
+              </MenuItem>
             </Menu>
           </div>
           <CardContent sx={{ flex: 1 }}>

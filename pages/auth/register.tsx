@@ -224,7 +224,9 @@ function Register() {
       }));
       isValid = false;
     }
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(formData.email)) {
+    if (
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)
+    ) {
       setFormDataError((prevState: any) => ({
         ...prevState,
         email: "Email is invalid",

@@ -167,13 +167,12 @@ export default function BrandCreation({
                             accept="image/*"
                             ref={logoRef}
                             style={{ display: "none" }}
-                            onChange={(e: any) => {
+                            onChange={async (e: any) => {
                               let file = e.target.files[0];
-                              fileToDataURL(file, (result) => {
-                                setFormData({
-                                  ...formData,
-                                  logo: { src: result, file: file },
-                                });
+                              let url = await fileToDataURL(file);
+                              setFormData({
+                                ...formData,
+                                logo: { src: url, file: file },
                               });
                             }}
                           />
