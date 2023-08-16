@@ -11,9 +11,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const [user, userIsLoading, userError] = useAuthState(auth);
   const router = useRouter();
 
-  useEffect(() => {
-    checkUserLoggedIn();
-  }, [user, userIsLoading]);
+  // useEffect(() => {
+  //   checkUserLoggedIn();
+  // }, [user, userIsLoading]);
 
   if (userIsLoading) return null;
 

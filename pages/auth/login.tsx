@@ -105,7 +105,7 @@ function Login() {
                 type="password"
                 name="password"
                 onChange={handleFieldChange}
-                placeholder={authConfig.emailText}
+                placeholder={authConfig.passwordText}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

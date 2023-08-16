@@ -176,7 +176,7 @@ function Register() {
                 type="password"
                 value={formData.password}
                 onChange={handleFieldChange}
-                placeholder={authConfig.emailText}
+                placeholder={authConfig.passwordText}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

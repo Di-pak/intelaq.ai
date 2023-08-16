@@ -5,7 +5,7 @@ export const authConfig = {
   createAnAccount: "انشاء حساب في انطلاق",
   createAnAccountButton: "انشاء حساب",
   nameText: "الاسم",
-  emailText: "البريد الالكترونيb",
+  emailText: "البريد الالكتروني",
   passwordText: "كلمة المرور",
   orText: "أو من خلال",
   signInText: "تسجيل الدخول",
