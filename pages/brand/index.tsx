@@ -120,7 +120,7 @@ export default function BrandCreation({
                   <FormControl fullWidth>
                     <Box display="flex" alignItems="center" gap={0.5}>
                       <ColorBookmark />
-                      <StyledTypography>وصف العلامة التجارية</StyledTypography>
+                      <StyledTypography>اسم العلامة التجارية</StyledTypography>
                     </Box>
                     <TextField
                       name="name"
@@ -128,7 +128,7 @@ export default function BrandCreation({
                       value={formData.name}
                       onChange={handleChangeField}
                       sx={style.customInput}
-                      placeholder="قم برفع ملف الشعار"
+                      placeholder="اسم العلامة التجارية"
                     />
                   </FormControl>
                 </Grid>
@@ -141,12 +141,13 @@ export default function BrandCreation({
                     >
                       <Box display="flex" alignItems="center" gap={0.5}>
                         <FolderIcon />
-                        <StyledTypography> العلامة التجارية</StyledTypography>
+                        <StyledTypography>
+                          شعار العلامة التجارية
+                        </StyledTypography>
                       </Box>
                       {(formData?.logo?.name || formData.logo) && (
                         <Box display="flex" alignItems="center" gap={0.5}>
                           <Button onClick={handleOpen} sx={{ padding: 0 }}>
-                            {" "}
                             تظهر الصورة
                           </Button>
                           <TaskAltIcon sx={{ color: "#4fe38f" }} />
@@ -198,8 +199,7 @@ export default function BrandCreation({
                       name="colorAccent"
                       onChange={handleChangeField}
                     />
-                    {/* {formData?.colorAccent} */}
-                    الثانوي
+                    الاساسي
                   </label>
                   <label dir="ltr" style={style.labelStyle}>
                     <input
@@ -209,7 +209,6 @@ export default function BrandCreation({
                       name="colorMaincolor"
                       onChange={handleChangeField}
                     />
-                    {/* {formData?.colorMaincolor} */}
                     الثانوي
                   </label>{" "}
                   <label dir="ltr" style={style.labelStyle}>
@@ -220,8 +219,7 @@ export default function BrandCreation({
                       name="colorSecondary"
                       onChange={handleChangeField}
                     />
-                    {/* {formData?.colorSecondary} */}
-                    الاساسي
+                    الثانوي
                   </label>
                 </Box>
               </FormControl>
@@ -253,12 +251,11 @@ export default function BrandCreation({
                 justifyContent="flex-end"
               >
                 <StyledButton variant="contained" onClick={handleSubmitBrand}>
-                  {isAdding && (
+                  {isAdding ? (
                     <CircularProgress size={28} style={{ color: "#fff" }} />
+                  ) : (
+                    <Typography> إنشاء</Typography>
                   )}
-                  {!isAdding && !isEdit && <Typography> إنشاء</Typography>}
-
-                  {!isAdding && isEdit && <Typography>يحرر</Typography>}
                 </StyledButton>
               </Grid>
             </Box>

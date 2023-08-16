@@ -89,10 +89,10 @@ const SideDrawer = () => {
           </IconButton>
           {router.pathname === "/setting" ? (
             <StyledSelectedTypography variant="subtitle2">
-              المشاريع
+              الاعدادات
             </StyledSelectedTypography>
           ) : (
-            <StyledTypography variant="subtitle2">المشاريع</StyledTypography>
+            <StyledTypography variant="subtitle2">الاعدادات</StyledTypography>
           )}
         </WrapperDiv>
       </StyledList>

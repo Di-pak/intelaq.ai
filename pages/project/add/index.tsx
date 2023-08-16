@@ -416,9 +416,8 @@ export default function ProjectSubmission({
             {isAdding ? (
               <CircularProgress size={28} style={{ color: "#fff" }} />
             ) : (
-              <Typography>بارسال</Typography>
+              <Typography>إنشاء</Typography>
             )}
-            بارسال
           </StyledButton>
         </Box>
       </Box>

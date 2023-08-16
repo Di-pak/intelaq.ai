@@ -46,7 +46,7 @@ export default function Brand() {
             }}
             variant="contained"
           >
-            + إنشاء علامة تجارية
+            + إنشاء مشروع
           </StyledButton>
 
           <SearchBar
@@ -71,7 +71,7 @@ export default function Brand() {
             noWrap
             sx={{ flex: 1 }}
           >
-            العلامات التجارية
+            قائمة المشاريع
           </Typography>
           <WhiteLogo />
         </Toolbar>
