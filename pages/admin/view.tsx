@@ -27,7 +27,7 @@ import { auth } from "../../firebase";
 import BrandIcon from "@/assets/brand-icon";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
-import { getBrand } from "@/services/brand-service";
+import { downloadFirebaseImage, getBrand } from "@/services/brand-service";
 import { AiOutlineDownload } from "react-icons/ai";
 import CloudIcon from "@/assets/cloudIcon";
 import { AiFillCloseCircle } from "react-icons/ai";
@@ -236,20 +236,22 @@ function AdminView() {
                           objectFit: "cover",
                         }}
                       />
-                      <a
-                        href={selectedProject?.image}
-                        download="test_image"
-                        target="_blank"
+                      <button
                         style={{
                           position: "absolute",
                           top: "20px",
                           left: "20px",
+                          cursor: "pointer",
                         }}
+                        onClick={() =>
+                          downloadFirebaseImage(
+                            selectedProject?.image,
+                            selectedProject?.title
+                          )
+                        }
                       >
-                        <button type="button" style={{ cursor: "pointer" }}>
-                          <AiOutlineDownload />
-                        </button>
-                      </a>
+                        <AiOutlineDownload />
+                      </button>
                     </Box>
 
                     <Typography
@@ -353,7 +355,19 @@ function AdminView() {
                         height: "200px",
                       }}
                     />
-                    <a
+                    <button
+                      style={{
+                        position: "absolute",
+                        top: "20px",
+                        left: "20px",
+                      }}
+                      onClick={() =>
+                        downloadFirebaseImage(brandData?.logo, brandData.name)
+                      }
+                    >
+                      <AiOutlineDownload />
+                    </button>
+                    {/* <a
                       href={brandData?.logo}
                       download="test_image"
                       target="_blank"
@@ -366,7 +380,7 @@ function AdminView() {
                       <button type="button" style={{ cursor: "pointer" }}>
                         <AiOutlineDownload />
                       </button>
-                    </a>
+                    </a> */}
                   </Box>
                 </Box>
               </Grid>

@@ -74,3 +74,25 @@ export async function deleteBrand(brandId: string) {
   const _doc = doc(firestore, BRAND_KEY, brandId);
   return await updateDoc(_doc, { status: "deleted" });
 }
+
+function downloadImage(imageUrl: string, name: string) {
+  fetch(imageUrl)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = name + "-logo";
+      link.click();
+    });
+}
+
+export function downloadFirebaseImage(imagePath: string, name: string) {
+  getDownloadURL(storageRef(storage, imagePath))
+    .then((url) => {
+      downloadImage(url, name);
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
+}

@@ -14,17 +14,20 @@ import RadioCheckedIcon from "@/assets/radiocheckedIcon";
 import DownloadcolorIcon from "@/assets/downloadcolorIcon";
 import EditcolorIcon from "@/assets/editcolorIcon";
 import SaveLogo from "@/assets/saveIcon";
+import { downloadFirebaseImage } from "@/services/brand-service";
 
 interface ResultRadioBoxProps {
   value: string;
   checked: boolean;
   onChange: () => void;
   src: string;
+  name: string;
 }
 
 const ResultRadioBox: React.FC<ResultRadioBoxProps> = ({
   value,
   src,
+  name,
   checked,
   onChange,
 }) => {
@@ -112,10 +115,13 @@ const ResultRadioBox: React.FC<ResultRadioBoxProps> = ({
           </RadioGroup>
         </RadioGroupContainer> */}
       </RadioBox>
-      <DownloadIconContainer>
-        <a href={src} download="test_image" target="_blank">
-          <DownloadcolorIcon />
-        </a>
+      <DownloadIconContainer
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          downloadFirebaseImage(src, name);
+        }}
+      >
+        <DownloadcolorIcon />
       </DownloadIconContainer>
       <EditIconContainer>
         <EditcolorIcon />
