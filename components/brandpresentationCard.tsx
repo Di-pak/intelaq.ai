@@ -8,6 +8,7 @@ import { Box, Button, Menu, MenuItem, styled } from "@mui/material";
 import FunctionIcon from "../assets/functionIcon";
 import { useRouter } from "next/router";
 import { deleteProject } from "@/services/project-service";
+import { AiFillEye } from "react-icons/ai";
 
 interface BrandPresentationCardProps {
   presentation: {
@@ -16,6 +17,7 @@ interface BrandPresentationCardProps {
     image: string;
     title: string;
     platform: string;
+    result_images: any;
   };
 }
 
@@ -47,6 +49,23 @@ export default function BrandPresentationCard(
             >
               <FunctionIcon />
             </IconContainer>
+            {presentation?.result_images?.length > 0 && (
+              <IconContainer
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={() => {
+                  router.push(`/project/results/${presentation.id}`);
+                }}
+                style={{ left: "50px" }}
+              >
+                <AiFillEye
+                  style={{ width: "25px", height: "25px", color: "#5BB3BE" }}
+                />
+              </IconContainer>
+            )}
+
             <Menu
               id="basic-menu"
               anchorEl={anchorEl}
@@ -65,13 +84,13 @@ export default function BrandPresentationCard(
                 Edit
               </MenuItem>
               <MenuItem onClick={handleDeleteProject}>Delete</MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 onClick={() => {
                   router.push(`/project/results/${presentation.id}`);
                 }}
               >
                 Show results
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
           </div>
           <CardContent sx={{ flex: 1 }}>
