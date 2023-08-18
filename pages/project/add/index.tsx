@@ -670,7 +670,6 @@ const style = {
   customInputFile: {
     backgroundColor: "#F7F7F7",
     borderRadius: "10px",
-    padding: "5.5rem 0",
     border: "1px  dashed #DADADA",
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderColor: "transparent",
