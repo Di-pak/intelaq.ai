@@ -4,5 +4,9 @@
   "projectId": "intelaq-d28cb",
   "storageBucket": "intelaq-d28cb.appspot.com",
   "messagingSenderId": "1062295736391",
-  "appId": "1:1062295736391:web:94a17184bcc07f434ae162"
+  "appId": "1:1062295736391:web:94a17184bcc07f434ae162",
+  "hosting": {
+    "public": "out",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
 }
