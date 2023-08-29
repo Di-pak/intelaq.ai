@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import SettingIcon from "../assets/settingIcon";
 import PresentationIcon from "../assets/presentationIcon";
 import MenuIcon from "../assets/menu-icon";
@@ -49,13 +49,28 @@ const StyledList = styled(List)({
 });
 
 const SideDrawer = () => {
+ 
+  const [newMobile,setNewMobile]=useState<any>()
   const router = useRouter();
+
+  const handleMobile=()=>{
+    if(window.innerWidth < 768){
+    setNewMobile(!newMobile)
+    }
+  }
+  useEffect(() => {
+    if(window.innerWidth > 768){ 
+    
+    setNewMobile(true)
+    }
+  }, [newMobile]);
   return (
     <Drawer variant="permanent" anchor="right">
-      <StyledComponent>
-        <MenuIcon />
+      <StyledComponent onClick={()=>handleMobile()}>
+        <MenuIcon  />
       </StyledComponent>
-      <StyledList>
+      {newMobile ?  
+     <StyledList>
         <WrapperDiv>
           <IconButton onClick={() => router.push("/")}>
             <BookmarkIcon selected={router.pathname === "/"} />
@@ -95,7 +110,7 @@ const SideDrawer = () => {
             <StyledTypography variant="subtitle2">الاعدادات</StyledTypography>
           )}
         </WrapperDiv>
-      </StyledList>
+      </StyledList> : ''} 
     </Drawer>
   );
 };

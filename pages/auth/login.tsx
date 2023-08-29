@@ -12,7 +12,9 @@ import {
   Snackbar,
   Alert,
   makeStyles,
+  
 } from "@mui/material";
+
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -33,10 +35,16 @@ import {
 import { auth } from "../../firebase";
 import { useRouter } from "next/router";
 
+
+
+
 function Login() {
   const [formData, setFormData] = useState(intialFormData);
   const [formDataError, setFormDataError] = useState<any>({});
   const router = useRouter();
+  const [newMobile,setNewMobile]=useState<any>()
+
+  
 
   const [
     signInWithEmailAndPassword,
@@ -56,6 +64,12 @@ function Login() {
   useEffect(() => {
     if (!gooleUserAfterSingIn?.user && !isError) return;
   }, [gooleUserAfterSingIn]);
+   
+  useEffect(() => {
+  const isDesktop = window.innerWidth > 768; 
+  
+  setNewMobile(isDesktop)
+}, [newMobile]);
 
   return (
     <Container maxWidth="xl" dir="rtl">
@@ -71,7 +85,7 @@ function Login() {
         container
         justifyContent="center"
         alignItems="center"
-        wrap="nowrap"
+         wrap="nowrap"
         gap="7.25rem"
         sx={{ height: "100%" }}
       >
@@ -149,13 +163,15 @@ function Login() {
             </Box>
           </Box>
         </Grid>
+       {newMobile ?
         <Grid
           item
           xs={12}
           md={6}
           lg={4}
           xl={4}
-          style={{ order: 2, flexGrow: 1 }}
+          style={{  order: 2, flexGrow: 1 }}
+          
         >
           <Box sx={style.rightSection}>
             <Typography variant="h3" sx={style.welcometext2}>
@@ -182,6 +198,8 @@ function Login() {
             </Box>
           </Box>
         </Grid>
+        :''
+        }
       </Grid>
     </Container>
   );
@@ -328,4 +346,8 @@ const style = {
     height: "18px",
     padding: "5px",
   },
+
+ 
 };
+
+

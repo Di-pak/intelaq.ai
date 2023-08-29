@@ -15,6 +15,7 @@ const Header = () => {
   let router = useRouter();
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState<any>(null);
+  const [newMobile,setNewMobile]=useState<any>()
   const style = {
     upperToolbar: {
       borderBottom: 1,
@@ -30,6 +31,16 @@ const Header = () => {
       marginLeft: "4rem",
     },
   };
+  const mobileStyle = {
+   
+    iconButton: {
+      marginLeft: "0rem",
+      marginRight: "4rem",
+    },
+    avatarStyle: {
+      marginLeft: "0rem",
+    },
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -38,13 +49,30 @@ const Header = () => {
     });
   }, [user]);
 
+  useEffect(() => {
+    if(window.innerWidth > 768){ 
+    
+    setNewMobile(true)
+    }
+  }, [newMobile]);
+
   return (
     <Toolbar sx={style.upperToolbar}>
-      <Avatar sx={style.avatarStyle} src="/broken-image.jpg" />
+     
+    { newMobile ? 
+     <>  <Avatar sx={style.avatarStyle} src="/broken-image.jpg" />
       <Button size="small">{userData?.name}</Button>
-      <IconButton sx={style.iconButton} onClick={() => router.push("/")}>
+     <IconButton sx={style.iconButton} onClick={() => router.push("/")}>
         <BrandIcon />
-      </IconButton>
+      </IconButton> 
+      </>:
+       <>
+      <Avatar sx={mobileStyle.avatarStyle} src="/broken-image.jpg" />
+      <Button size="small">{userData?.name}</Button>
+      <IconButton sx={mobileStyle.iconButton} onClick={() => router.push("/")}>
+        <BrandIcon /> 
+      </IconButton> 
+      </>}
     </Toolbar>
   );
 };
