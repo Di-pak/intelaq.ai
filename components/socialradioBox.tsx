@@ -36,8 +36,7 @@ const SocialRadioBox: React.FC<SocialRadioBoxProps> = ({
   onChange,
 }) => {
   const RadioBox = styled(Box)(({}) => ({
-    width: 160,
-    height: 166,
+    paddingBlock: "20px",
     borderRadius: 10,
     border: "1px solid #DADADA",
     position: "relative",
@@ -65,8 +64,8 @@ const SocialRadioBox: React.FC<SocialRadioBoxProps> = ({
 
   const RadioGroupContainer = styled(Box)({
     position: "absolute",
-    top: 5,
-    left: "8rem",
+    top: "0.5rem",
+    right: "0.5rem",
   });
 
   return (

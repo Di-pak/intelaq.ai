@@ -11,7 +11,7 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
-  makeStyles,
+  createTheme,
 } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -21,17 +21,17 @@ import {
   intialFormData,
 } from "../../config/authConfig";
 import TextField from "@mui/material/TextField";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { BiLogoGoogle, BiLogoFacebook } from "react-icons/bi";
 import {
-  useAuthState,
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import { useRouter } from "next/router";
+
+const defaultTheme = createTheme();
 
 function Login() {
   const [formData, setFormData] = useState(intialFormData);
@@ -156,6 +156,9 @@ function Login() {
           lg={4}
           xl={4}
           style={{ order: 2, flexGrow: 1 }}
+          sx={{
+            ...style.hideSection,
+          }}
         >
           <Box sx={style.rightSection}>
             <Typography variant="h3" sx={style.welcometext2}>
@@ -270,7 +273,11 @@ const style = {
     marginLeft: 0,
     marginRight: "auto",
   },
-
+  hideSection: {
+    [defaultTheme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
   welcometext2: {
     color: "#FBCD2F",
     fontFamily: fontFamily,

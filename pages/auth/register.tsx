@@ -11,6 +11,7 @@ import {
   Snackbar,
   CircularProgress,
   Alert,
+  createTheme,
 } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -31,6 +32,7 @@ import {
 import { auth } from "../../firebase";
 import { addUser } from "@/services/users-service";
 import { useRouter } from "next/router";
+const defaultTheme = createTheme();
 
 function Register() {
   const [formData, setFormData] = useState(intialSignUpFormData);
@@ -94,7 +96,17 @@ function Register() {
         gap="7.25rem"
         sx={{ height: "100%" }}
       >
-        <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 1 }}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={4}
+          xl={4}
+          style={{ order: 1 }}
+          sx={{
+            ...style.hideSection,
+          }}
+        >
           <Box sx={style.rightSection}>
             <Typography variant="h3" sx={style.welcometext2}>
               {authConfig.welcomeTextArabic}
@@ -300,7 +312,11 @@ const style = {
     marginLeft: 0,
     marginRight: "auto",
   },
-
+  hideSection: {
+    [defaultTheme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
   welcometext2: {
     color: "#FBCD2F",
     fontFamily: fontFamily,

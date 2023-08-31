@@ -80,14 +80,27 @@ export default function BrandCreation({
   return (
     <ThemeProvider theme={defaultTheme}>
       <Header />
-      <Container>
+      <Container sx={{ marginTop: "40px" }}>
         <Grid
           container
           justifyContent="center"
           alignItems="center"
           wrap="nowrap"
         >
-          <Grid item xs={12} md={6} lg={5} xl={4} style={{ order: 2 }}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            lg={5}
+            xl={4}
+            style={{ order: 2 }}
+            sx={{
+              ...style.rightSection,
+              [defaultTheme.breakpoints.down("md")]: {
+                display: "none",
+              },
+            }}
+          >
             <Box sx={style.rightSection} dir="rtl">
               <IconButton sx={style.closeIcon} onClick={() => router.push("/")}>
                 <CloseIcon />
@@ -111,7 +124,12 @@ export default function BrandCreation({
             lg={7}
             xl={8}
             mr={8}
-            style={{ order: 1 }}
+            sx={{
+              order: 1,
+              [defaultTheme.breakpoints.down("md")]: {
+                mr: "none",
+              },
+            }}
             wrap="nowrap"
           >
             <Box sx={style.leftSection} dir="rtl">
@@ -403,8 +421,6 @@ const style = {
     minHeight: "80vh",
     height: "100%",
     width: "100%",
-    marginTop: "3vh",
-    marginBottom: "2vh",
     borderRadius: "22px",
     marginLeft: "auto",
     display: "flex",
@@ -416,8 +432,6 @@ const style = {
     width: "100%",
     flexDirection: "column",
     alignItems: "center",
-    marginLeft: "auto",
-    marginRight: 0,
   },
   closeIcon: {
     position: "absolute",

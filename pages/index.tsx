@@ -3,8 +3,6 @@ import BrandBookmarkCard from "../components/brandbookmarkCard";
 import WhiteLogo from "../assets/whiteLogo";
 import GrayLogo from "../assets/grayLogo";
 import SearchIcon from "@mui/icons-material/Search";
-import Header from "../components/header";
-import SideDrawer from "../components/sideDrawer";
 import {
   styled,
   Grid,
@@ -14,11 +12,15 @@ import {
   TextField,
   IconButton,
   InputAdornment,
+  createTheme,
+  Box,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useUserGetBrands } from "@/services/brand-service";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
+import Layout from "@/components/Layout";
+const defaultTheme = createTheme();
 
 export default function Brand() {
   const [user] = useAuthState(auth);
@@ -26,9 +28,7 @@ export default function Brand() {
   const [brandData, isLoading, isError] = useUserGetBrands(user?.uid);
   if (isLoading) return null;
   return (
-    <Grid>
-      <SideDrawer />
-      <Header />
+    <Layout>
       <Container>
         <Toolbar
           sx={{
@@ -40,14 +40,26 @@ export default function Brand() {
               router.push("/brand");
             }}
             variant="contained"
+            // sx={{
+            //   [defaultTheme.breakpoints.down("sm")]: {
+            //     marginTop: "10px",
+            //     marginBottom: "20px",
+            //   },
+            // }}
           >
             + إنشاء علامة تجارية
           </StyledButton>
 
-          <SearchBar
+          {/* <SearchBar
             variant="outlined"
             placeholder="ابحث..."
             dir="rtl"
+            sx={{
+              [defaultTheme.breakpoints.down("sm")]: {
+                marginTop: "60px",
+                marginBottom: "20px",
+              },
+            }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -57,18 +69,27 @@ export default function Brand() {
                 </InputAdornment>
               ),
             }}
-          />
-          <Typography
-            component="h2"
-            variant="h5"
-            color="#24B1BE"
-            align="right"
-            noWrap
-            sx={{ flex: 1 }}
-          >
-            العلامات التجارية
-          </Typography>
-          <WhiteLogo />
+          /> */}
+          <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <Typography
+              component="h2"
+              variant="h5"
+              color="#24B1BE"
+              align="right"
+              noWrap
+            >
+              العلامات التجارية
+            </Typography>
+            <Box
+              sx={{
+                [defaultTheme.breakpoints.down("md")]: {
+                  display: "none",
+                },
+              }}
+            >
+              <WhiteLogo />
+            </Box>
+          </Box>
         </Toolbar>
         <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
           {brandData?.map((brand: any) => (
@@ -94,7 +115,7 @@ export default function Brand() {
           </NoBrandContainer>
         )}
       </Container>
-    </Grid>
+    </Layout>
   );
 }
 
@@ -138,10 +159,11 @@ const SearchBar = styled(TextField)(({ theme }) => ({
 const Container = styled("div")({
   marginRight: "6.9em",
   marginLeft: "1.5em",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
+
+  [defaultTheme.breakpoints.down("md")]: {
+    marginRight: "0.5rem",
+    marginLeft: 0,
+  },
 });
 const NoBrandContainer = styled("div")({
   display: "flex",
@@ -161,6 +183,13 @@ const style = {
     borderRadius: "1rem",
     marginTop: "2rem",
     width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    gap: 4,
+    flexWrap: "wrap",
+    [defaultTheme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
   },
 
   mainStyle: {

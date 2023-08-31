@@ -8,8 +8,11 @@ import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 import { getUser } from "@/services/users-service";
+import { createTheme } from "@mui/material";
 
 // Define the props interface
+
+const defaultTheme = createTheme();
 
 const Header = () => {
   let router = useRouter();
@@ -28,6 +31,9 @@ const Header = () => {
     },
     avatarStyle: {
       marginLeft: "4rem",
+      [defaultTheme.breakpoints.down("sm")]: {
+        marginLeft: "0rem",
+      },
     },
   };
 
