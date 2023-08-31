@@ -81,6 +81,7 @@ export default function BrandCreation({
     <ThemeProvider theme={defaultTheme} >
       <Header />
       <Container
+      
       sx={{...style.rightSection,[defaultTheme.breakpoints.down("sm")]: {
         display:'flex',flexDirection:'column',gap:6}}}>
         <Grid
@@ -89,11 +90,12 @@ export default function BrandCreation({
           alignItems="center"
           wrap="nowrap"
           sx={{...style.rightSection,[defaultTheme.breakpoints.down("sm")]: {
-            display:'flex',flexDirection:'column',gap:6},}}
-        >
+            display:'flex',flexDirection:'column'},}}
+          >
           <Grid item xs={12} md={6} sm={1} lg={5} xl={4} style={{ order: 2 }}>
             <Box sx={{...style.rightSection,[defaultTheme.breakpoints.down("sm")]: {
           display:'none'},}} dir="rtl">
+          
               <IconButton sx={style.closeIcon} onClick={() => router.push("/")}>
                 <CloseIcon />
               </IconButton>
@@ -120,10 +122,11 @@ export default function BrandCreation({
             style={{ order: 1 }}
             wrap="nowrap"
             sx={{[defaultTheme.breakpoints.down("sm")]: {
-              wrap:'wrap'},}}
+            },}}
           >
             <Box sx={style.leftSection} dir="rtl">
               <Grid container spacing={2}>
+              
                 <Grid item xs={6} sx={{ marginBottom: "2.5rem",[defaultTheme.breakpoints.down("sm")]: {
       display:'flex',flexDirection:'column',gap:1}, }}>
                   <FormControl fullWidth>
@@ -277,11 +280,9 @@ export default function BrandCreation({
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          sx={{[defaultTheme.breakpoints.down("sm")]: {
-          display:'none'},}}
+         
         >
-          <Box sx={{...style.modalStyle,[defaultTheme.breakpoints.down("sm")]: {
-          display:'none'},}}>
+          <Box sx={{...style.modalStyle,}}>
             <img
               src={formData.logo?.src || formData.logo}
               width="auto"

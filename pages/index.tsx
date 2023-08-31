@@ -78,12 +78,12 @@ export default function Brand() {
             noWrap
             sx={{ flex: 1, [defaultTheme.breakpoints.down("sm")]: {
               marginTop:'80px',
-              marginBottom:'20px',
             }, }}
           >
             العلامات التجارية
           </Typography>
-          <WhiteLogo />
+          
+          <WhiteLogo  />
         </Toolbar>
         <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
           {brandData?.map((brand: any) => (

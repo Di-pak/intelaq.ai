@@ -155,7 +155,7 @@ export default function ProjectSubmission({
       <Header />
       <Container>
         <Grid container justifyContent="center" wrap="nowrap">
-          <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 2 }}>
+          <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 2 }} sx={{[defaultTheme.breakpoints.down("sm")]: {display:'none'}}}>
             <Box sx={style.rightSection} dir="rtl">
               <IconButton
                 sx={style.closeIcon}

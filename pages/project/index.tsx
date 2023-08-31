@@ -42,7 +42,7 @@ export default function Brand() {
             [defaultTheme.breakpoints.down("sm")]: {
               display:'flex',
               flexDirection:'column',
-              gap:3,
+              gap:2
             },
           }}
         >
@@ -65,7 +65,6 @@ export default function Brand() {
             dir="rtl"
             sx={{[defaultTheme.breakpoints.down("sm")]: {
               marginTop:'60px',
-              marginBottom:'20px',
             },}}
             InputProps={{
               startAdornment: (
@@ -90,7 +89,8 @@ export default function Brand() {
           >
             قائمة المشاريع
           </Typography>
-          <WhiteLogo />
+          <WhiteLogo 
+            />
         </Toolbar>
         {getFilterData(brandData).length > 0 &&
           getFilterData(brandData).map((item: any, i: number) => {
