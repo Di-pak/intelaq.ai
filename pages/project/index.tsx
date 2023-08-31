@@ -39,6 +39,9 @@ export default function Brand() {
         <Toolbar
           sx={{
             ...style.mainToolbar,
+            [defaultTheme.breakpoints.down("sm")]: {
+              marginBottom:'40px',
+            },
           }}
         >
           <StyledButton
@@ -54,6 +57,9 @@ export default function Brand() {
             variant="outlined"
             placeholder="ابحث..."
             dir="rtl"
+            sx={{[defaultTheme.breakpoints.down("sm")]: {
+              marginTop:'80px',
+            },}}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -70,7 +76,9 @@ export default function Brand() {
             color="#24B1BE"
             align="right"
             noWrap
-            sx={{ flex: 1 }}
+            sx={{ flex: 1,[defaultTheme.breakpoints.down("sm")]: {
+              marginTop:'100px',
+            }, }}
           >
             قائمة المشاريع
           </Typography>

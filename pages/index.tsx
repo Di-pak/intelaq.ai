@@ -32,6 +32,11 @@ export default function Brand() {
         <Toolbar
           sx={{
             ...style.mainToolbar,
+            [defaultTheme.breakpoints.down("sm")]: {
+              display:'flex',
+              flexDirection:'column',
+              gap:6,
+            },
           }}
         >
           <StyledButton
@@ -39,6 +44,10 @@ export default function Brand() {
               router.push("/brand");
             }}
             variant="contained"
+            sx={{[defaultTheme.breakpoints.down("sm")]: { 
+              marginTop:"10px",
+            marginBottom:'20px',},
+            }}
           >
             + إنشاء علامة تجارية
           </StyledButton>
@@ -47,6 +56,10 @@ export default function Brand() {
             variant="outlined"
             placeholder="ابحث..."
             dir="rtl"
+            sx={{[defaultTheme.breakpoints.down("sm")]: {
+              marginTop:'60px',
+              marginBottom:'20px',
+            },}}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -63,7 +76,10 @@ export default function Brand() {
             color="#24B1BE"
             align="right"
             noWrap
-            sx={{ flex: 1 }}
+            sx={{ flex: 1, [defaultTheme.breakpoints.down("sm")]: {
+              marginTop:'80px',
+              marginBottom:'20px',
+            }, }}
           >
             العلامات التجارية
           </Typography>
