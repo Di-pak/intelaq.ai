@@ -40,7 +40,9 @@ export default function Brand() {
           sx={{
             ...style.mainToolbar,
             [defaultTheme.breakpoints.down("sm")]: {
-              marginBottom:'40px',
+              display:'flex',
+              flexDirection:'column',
+              gap:3,
             },
           }}
         >
@@ -49,6 +51,10 @@ export default function Brand() {
               router.push("/project/add");
             }}
             variant="contained"
+            sx={{[defaultTheme.breakpoints.down("sm")]: { 
+              marginTop:"10px",
+            marginBottom:'20px',},
+            }}
           >
             + إنشاء مشروع
           </StyledButton>
@@ -58,7 +64,8 @@ export default function Brand() {
             placeholder="ابحث..."
             dir="rtl"
             sx={{[defaultTheme.breakpoints.down("sm")]: {
-              marginTop:'80px',
+              marginTop:'60px',
+              marginBottom:'20px',
             },}}
             InputProps={{
               startAdornment: (
@@ -76,8 +83,9 @@ export default function Brand() {
             color="#24B1BE"
             align="right"
             noWrap
-            sx={{ flex: 1,[defaultTheme.breakpoints.down("sm")]: {
-              marginTop:'100px',
+            sx={{ flex: 1, [defaultTheme.breakpoints.down("sm")]: {
+              marginTop:'80px',
+              marginBottom:'0px',
             }, }}
           >
             قائمة المشاريع

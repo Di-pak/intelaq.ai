@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { Box, Button, Menu, MenuItem, styled } from "@mui/material";
+import { Box, Button, Menu, MenuItem, createTheme, styled } from "@mui/material";
 import FunctionIcon from "../assets/functionIcon";
 import { useRouter } from "next/router";
 import { deleteProject } from "@/services/project-service";
@@ -20,6 +20,7 @@ interface BrandPresentationCardProps {
     result_images: any;
   };
 }
+const defaultTheme=createTheme();
 
 export default function BrandPresentationCard(
   props: BrandPresentationCardProps
@@ -106,10 +107,16 @@ export default function BrandPresentationCard(
           <CardMedia
             component="img"
             sx={{
-              width: "5vw",
-              height: "5vw",
+              width: "10vw",
+              height: "10vw",
               borderRadius: "50%",
               padding: "2vw",
+              [defaultTheme.breakpoints.down("sm")]: {
+                width: "14vw",
+                height: "14vw",
+                borderRadius: "50%",
+                padding: "2vw",
+              }
             }}
             image={presentation.image}
           />

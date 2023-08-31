@@ -44,9 +44,9 @@ export default function Results() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Header />
-      <Grid container>
-        <StyledToolbar>
-          <StyledButton variant="contained">
+      <Grid container sx={{[defaultTheme.breakpoints.down("sm")]: {display:'flex',flexDirection:'column'}}}>
+        <StyledToolbar sx={{[defaultTheme.breakpoints.down("sm")]: {display:'flex',flexDirection:'column',height:'200px',width:'320px',marginLeft:'10px',marginRight:'10px'}}}>
+          <StyledButton variant="contained" sx={{[defaultTheme.breakpoints.down("sm")]: {marginTop:'20px'}}}>
             <DownloadAllIcon />
             تحميل الكل{" "}
           </StyledButton>
@@ -56,7 +56,7 @@ export default function Results() {
             color="#24B1BE"
             align="right"
             noWrap
-            sx={{ flex: 1 }}
+            sx={{ flex: 1,[defaultTheme.breakpoints.down("sm")]: {marginTop:'20px'} }}
           >
             اسم المشروع
           </Typography>
