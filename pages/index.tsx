@@ -3,8 +3,6 @@ import BrandBookmarkCard from "../components/brandbookmarkCard";
 import WhiteLogo from "../assets/whiteLogo";
 import GrayLogo from "../assets/grayLogo";
 import SearchIcon from "@mui/icons-material/Search";
-import Header from "../components/header";
-import SideDrawer from "../components/sideDrawer";
 import {
   styled,
   Grid,
@@ -14,11 +12,14 @@ import {
   TextField,
   IconButton,
   InputAdornment,
+  createTheme,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useUserGetBrands } from "@/services/brand-service";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
+import Layout from "@/components/Layout";
+const defaultTheme = createTheme();
 
 export default function Brand() {
   const [user] = useAuthState(auth);
@@ -26,9 +27,7 @@ export default function Brand() {
   const [brandData, isLoading, isError] = useUserGetBrands(user?.uid);
   if (isLoading) return null;
   return (
-    <Grid>
-      <SideDrawer />
-      <Header />
+    <Layout>
       <Container>
         <Toolbar
           sx={{
@@ -94,7 +93,7 @@ export default function Brand() {
           </NoBrandContainer>
         )}
       </Container>
-    </Grid>
+    </Layout>
   );
 }
 
@@ -138,10 +137,11 @@ const SearchBar = styled(TextField)(({ theme }) => ({
 const Container = styled("div")({
   marginRight: "6.9em",
   marginLeft: "1.5em",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
+
+  [defaultTheme.breakpoints.down("md")]: {
+    marginRight: "0.5rem",
+    marginLeft: 0,
+  },
 });
 const NoBrandContainer = styled("div")({
   display: "flex",

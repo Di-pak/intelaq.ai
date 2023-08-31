@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 import { getUser } from "@/services/users-service";
-import {createTheme} from "@mui/material";
+import { createTheme } from "@mui/material";
 
 // Define the props interface
 
@@ -18,7 +18,7 @@ const Header = () => {
   let router = useRouter();
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState<any>(null);
- 
+
   const style = {
     upperToolbar: {
       borderBottom: 1,
@@ -29,21 +29,15 @@ const Header = () => {
     iconButton: {
       marginLeft: "auto",
       marginRight: "4rem",
-      [defaultTheme.breakpoints.down("sm")]: {
-        marginLeft: "0rem",
-        marginRight: "4rem"
-      },
-      
     },
     avatarStyle: {
       marginLeft: "4rem",
       [defaultTheme.breakpoints.down("sm")]: {
         marginLeft: "0rem",
-      }
+      },
     },
   };
 
-  
   useEffect(() => {
     if (!user) return;
     getUser(user.uid).then((res) => {
@@ -51,18 +45,13 @@ const Header = () => {
     });
   }, [user]);
 
-
-
   return (
     <Toolbar sx={style.upperToolbar}>
-     
-
       <Avatar sx={style.avatarStyle} src="/broken-image.jpg" />
       <Button size="small">{userData?.name}</Button>
-     <IconButton sx={style.iconButton} onClick={() => router.push("/")}>
+      <IconButton sx={style.iconButton} onClick={() => router.push("/")}>
         <BrandIcon />
-      </IconButton> 
-      
+      </IconButton>
     </Toolbar>
   );
 };

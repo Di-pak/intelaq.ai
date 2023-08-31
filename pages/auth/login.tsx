@@ -11,7 +11,6 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
-  makeStyles,
   createTheme,
 } from "@mui/material";
 
@@ -23,12 +22,10 @@ import {
   intialFormData,
 } from "../../config/authConfig";
 import TextField from "@mui/material/TextField";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { BiLogoGoogle, BiLogoFacebook } from "react-icons/bi";
 import {
-  useAuthState,
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
@@ -37,15 +34,10 @@ import { useRouter } from "next/router";
 
 const defaultTheme = createTheme();
 
-
 function Login() {
   const [formData, setFormData] = useState(intialFormData);
   const [formDataError, setFormDataError] = useState<any>({});
   const router = useRouter();
-  const [newMobile,setNewMobile]=useState<any>()
-  
-
-  
 
   const [
     signInWithEmailAndPassword,
@@ -65,12 +57,6 @@ function Login() {
   useEffect(() => {
     if (!gooleUserAfterSingIn?.user && !isError) return;
   }, [gooleUserAfterSingIn]);
-   
-  useEffect(() => {
-  const isDesktop = window.innerWidth > 768; 
-  
-  setNewMobile(isDesktop)
-}, [newMobile]);
 
   return (
     <Container maxWidth="xl" dir="rtl">
@@ -86,7 +72,7 @@ function Login() {
         container
         justifyContent="center"
         alignItems="center"
-         wrap="nowrap"
+        wrap="nowrap"
         gap="7.25rem"
         sx={{ height: "100%" }}
       >
@@ -164,14 +150,14 @@ function Login() {
             </Box>
           </Box>
         </Grid>
-       
+
         <Grid
           item
           xs={12}
           md={6}
           lg={4}
           xl={4}
-          style={{  order: 2, flexGrow: 1 }}
+          style={{ order: 2, flexGrow: 1 }}
           sx={{
             ...style.hideSection,
           }}
@@ -201,7 +187,6 @@ function Login() {
             </Box>
           </Box>
         </Grid>
-        
       </Grid>
     </Container>
   );
@@ -291,8 +276,7 @@ const style = {
     marginRight: "auto",
   },
   hideSection: {
-    
-    [defaultTheme.breakpoints.down("sm")]: {
+    [defaultTheme.breakpoints.down("md")]: {
       display: "none",
     },
   },
@@ -353,8 +337,4 @@ const style = {
     height: "18px",
     padding: "5px",
   },
-
- 
 };
-
-

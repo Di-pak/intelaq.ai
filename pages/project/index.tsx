@@ -17,12 +17,15 @@ import {
   InputAdornment,
   Divider,
   Box,
+  createTheme,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useUserGetProject } from "@/services/project-service";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
+import Layout from "@/components/Layout";
 
+const defaultTheme = createTheme();
 export default function Brand() {
   const router = useRouter();
   const [user] = useAuthState(auth);
@@ -31,9 +34,7 @@ export default function Brand() {
   if (isLoading) return <p>...loading</p>;
 
   return (
-    <Grid>
-      <SideDrawer />
-      <Header />
+    <Layout>
       <Container>
         <Toolbar
           sx={{
@@ -121,7 +122,7 @@ export default function Brand() {
           </NoBrandContainer>
         )}
       </Container>
-    </Grid>
+    </Layout>
   );
 
   function getFilterData(data: any) {
@@ -178,10 +179,10 @@ const SearchBar = styled(TextField)(({ theme }) => ({
 const Container = styled("div")({
   marginRight: "6.9em",
   marginLeft: "1.5em",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
+  [defaultTheme.breakpoints.down("md")]: {
+    marginRight: "0.5rem",
+    marginLeft: 0,
+  },
 });
 const NoBrandContainer = styled("div")({
   display: "flex",

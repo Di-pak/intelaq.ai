@@ -36,7 +36,7 @@ import { useRouter } from "next/router";
 const defaultTheme = createTheme();
 function Register() {
   const [formData, setFormData] = useState(intialSignUpFormData);
-  
+
   let router = useRouter();
   const [formDataError, setFormDataError] = useState<any>({});
   const handleFieldChange = (e: any) => {
@@ -79,8 +79,6 @@ function Register() {
     });
   }, [gooleUserAfterSingIn]);
 
-
-
   return (
     <Container maxWidth="xl" dir="rtl">
       <Snackbar open={registerError ? true : false} autoHideDuration={6000}>
@@ -99,10 +97,17 @@ function Register() {
         gap="7.25rem"
         sx={{ height: "100%" }}
       >
-        
-        <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 1 }}  sx={{
+        <Grid
+          item
+          xs={12}
+          md={6}
+          lg={4}
+          xl={4}
+          style={{ order: 1 }}
+          sx={{
             ...style.hideSection,
-          }}>
+          }}
+        >
           <Box sx={style.rightSection}>
             <Typography variant="h3" sx={style.welcometext2}>
               {authConfig.welcomeTextArabic}
@@ -128,7 +133,7 @@ function Register() {
             </Box>
           </Box>
         </Grid>
-        
+
         <Grid
           item
           xs={12}
@@ -221,7 +226,6 @@ function Register() {
             </Box>
           </Box>
         </Grid>
-        
       </Grid>
     </Container>
   );
@@ -311,8 +315,7 @@ const style = {
     marginRight: "auto",
   },
   hideSection: {
-    
-    [defaultTheme.breakpoints.down("sm")]: {
+    [defaultTheme.breakpoints.down("md")]: {
       display: "none",
     },
   },
