@@ -78,24 +78,30 @@ export default function BrandCreation({
   }, [data]);
 
   return (
-    <ThemeProvider theme={defaultTheme} >
+    <ThemeProvider theme={defaultTheme}>
       <Header />
-      <Container
-      
-      sx={{...style.rightSection,[defaultTheme.breakpoints.down("sm")]: {
-        display:'flex',flexDirection:'column',gap:6}}}>
+      <Container sx={{ marginTop: "40px" }}>
         <Grid
           container
           justifyContent="center"
           alignItems="center"
           wrap="nowrap"
-          sx={{...style.rightSection,[defaultTheme.breakpoints.down("sm")]: {
-            display:'flex',flexDirection:'column'},}}
+        >
+          <Grid
+            item
+            xs={12}
+            md={6}
+            lg={5}
+            xl={4}
+            style={{ order: 2 }}
+            sx={{
+              ...style.rightSection,
+              [defaultTheme.breakpoints.down("md")]: {
+                display: "none",
+              },
+            }}
           >
-          <Grid item xs={12} md={6} sm={1} lg={5} xl={4} style={{ order: 2 }}>
-            <Box sx={{...style.rightSection,[defaultTheme.breakpoints.down("sm")]: {
-          display:'none'},}} dir="rtl">
-          
+            <Box sx={style.rightSection} dir="rtl">
               <IconButton sx={style.closeIcon} onClick={() => router.push("/")}>
                 <CloseIcon />
               </IconButton>
@@ -116,19 +122,19 @@ export default function BrandCreation({
             xs={12}
             md={6}
             lg={7}
-            sm={1}
             xl={8}
             mr={8}
-            style={{ order: 1 }}
+            sx={{
+              order: 1,
+              [defaultTheme.breakpoints.down("md")]: {
+                mr: "none",
+              },
+            }}
             wrap="nowrap"
-            sx={{[defaultTheme.breakpoints.down("sm")]: {
-            },}}
           >
             <Box sx={style.leftSection} dir="rtl">
               <Grid container spacing={2}>
-              
-                <Grid item xs={6} sx={{ marginBottom: "2.5rem",[defaultTheme.breakpoints.down("sm")]: {
-      display:'flex',flexDirection:'column',gap:1}, }}>
+                <Grid item xs={6} sx={{ marginBottom: "2.5rem" }}>
                   <FormControl fullWidth>
                     <Box display="flex" alignItems="center" gap={0.5}>
                       <ColorBookmark />
@@ -261,8 +267,6 @@ export default function BrandCreation({
                 direction="row"
                 alignItems="center"
                 justifyContent="flex-end"
-                sx={{[defaultTheme.breakpoints.down("sm")]: {
-                  marginLeft:'8px'},}}
               >
                 <StyledButton variant="contained" onClick={handleSubmitBrand}>
                   {isAdding ? (
@@ -280,9 +284,8 @@ export default function BrandCreation({
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-         
         >
-          <Box sx={{...style.modalStyle,}}>
+          <Box sx={style.modalStyle}>
             <img
               src={formData.logo?.src || formData.logo}
               width="auto"
@@ -418,8 +421,6 @@ const style = {
     minHeight: "80vh",
     height: "100%",
     width: "100%",
-    marginTop: "3vh",
-    marginBottom: "2vh",
     borderRadius: "22px",
     marginLeft: "auto",
     display: "flex",
@@ -431,8 +432,6 @@ const style = {
     width: "100%",
     flexDirection: "column",
     alignItems: "center",
-    marginLeft: "auto",
-    marginRight: 0,
   },
   closeIcon: {
     position: "absolute",

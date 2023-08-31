@@ -13,6 +13,7 @@ import {
   IconButton,
   InputAdornment,
   createTheme,
+  Box,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useUserGetBrands } from "@/services/brand-service";
@@ -32,11 +33,6 @@ export default function Brand() {
         <Toolbar
           sx={{
             ...style.mainToolbar,
-            [defaultTheme.breakpoints.down("sm")]: {
-              display:'flex',
-              flexDirection:'column',
-              gap:6,
-            },
           }}
         >
           <StyledButton
@@ -44,22 +40,26 @@ export default function Brand() {
               router.push("/brand");
             }}
             variant="contained"
-            sx={{[defaultTheme.breakpoints.down("sm")]: { 
-              marginTop:"10px",
-            marginBottom:'20px',},
-            }}
+            // sx={{
+            //   [defaultTheme.breakpoints.down("sm")]: {
+            //     marginTop: "10px",
+            //     marginBottom: "20px",
+            //   },
+            // }}
           >
             + إنشاء علامة تجارية
           </StyledButton>
 
-          <SearchBar
+          {/* <SearchBar
             variant="outlined"
             placeholder="ابحث..."
             dir="rtl"
-            sx={{[defaultTheme.breakpoints.down("sm")]: {
-              marginTop:'60px',
-              marginBottom:'20px',
-            },}}
+            sx={{
+              [defaultTheme.breakpoints.down("sm")]: {
+                marginTop: "60px",
+                marginBottom: "20px",
+              },
+            }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -69,21 +69,27 @@ export default function Brand() {
                 </InputAdornment>
               ),
             }}
-          />
-          <Typography
-            component="h2"
-            variant="h5"
-            color="#24B1BE"
-            align="right"
-            noWrap
-            sx={{ flex: 1, [defaultTheme.breakpoints.down("sm")]: {
-              marginTop:'80px',
-            }, }}
-          >
-            العلامات التجارية
-          </Typography>
-          
-          <WhiteLogo  />
+          /> */}
+          <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <Typography
+              component="h2"
+              variant="h5"
+              color="#24B1BE"
+              align="right"
+              noWrap
+            >
+              العلامات التجارية
+            </Typography>
+            <Box
+              sx={{
+                [defaultTheme.breakpoints.down("md")]: {
+                  display: "none",
+                },
+              }}
+            >
+              <WhiteLogo />
+            </Box>
+          </Box>
         </Toolbar>
         <Grid container spacing={1} mt={4} justifyContent={"flex-end"}>
           {brandData?.map((brand: any) => (
@@ -177,6 +183,13 @@ const style = {
     borderRadius: "1rem",
     marginTop: "2rem",
     width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    gap: 4,
+    flexWrap: "wrap",
+    [defaultTheme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
   },
 
   mainStyle: {

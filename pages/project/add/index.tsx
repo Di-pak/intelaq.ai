@@ -155,7 +155,14 @@ export default function ProjectSubmission({
       <Header />
       <Container>
         <Grid container justifyContent="center" wrap="nowrap">
-          <Grid item xs={12} md={6} lg={4} xl={4} style={{ order: 2 }} sx={{[defaultTheme.breakpoints.down("sm")]: {display:'none'}}}>
+          <Grid
+            item
+            xs={12}
+            lg={4}
+            xl={4}
+            style={{ order: 2 }}
+            sx={{ [defaultTheme.breakpoints.down("sm")]: { display: "none" } }}
+          >
             <Box sx={style.rightSection} dir="rtl">
               <IconButton
                 sx={style.closeIcon}
@@ -180,7 +187,19 @@ export default function ProjectSubmission({
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} md={6} lg={6} xl={8} mr={8} style={{ order: 1 }}>
+          <Grid
+            item
+            xs={12}
+            lg={6}
+            xl={8}
+            mr={8}
+            style={{ order: 1 }}
+            sx={{
+              [defaultTheme.breakpoints.down("sm")]: {
+                mr: 0,
+              },
+            }}
+          >
             <Box sx={{ width: "100%", marginTop: "4rem" }}>
               <Stepper activeStep={step} alternativeLabel>
                 {steps.map((label, index) => (
@@ -244,7 +263,7 @@ export default function ProjectSubmission({
         <Box dir="rtl" sx={{ marginBottom: "32px" }}>
           <StyledTypography>قم باختيار حجم المشروع</StyledTypography>
         </Box>
-        <Grid container spacing={2} dir="rtl">
+        <Grid container spacing={4} dir="rtl">
           {radioBoxesData.map((data, index) => (
             <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={4}>
               <SocialRadioBox
@@ -594,13 +613,16 @@ const style = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    [defaultTheme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
+
   leftSection: {
     width: "100%",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    left: "0",
     [defaultTheme.breakpoints.down("sm")]: {
       alignItems: "center",
     },
